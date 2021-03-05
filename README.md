@@ -1,5 +1,5 @@
-# **ArcadeLovers**
-Games Development - Project I - My first amazing game
+# **ArcadeLovers Studios - Project I: 1943**
+Specialized in Games Development 
 
 ## **1943**
 
