@@ -3,7 +3,7 @@ Specialized in Games Development
 
 ![Arcade Lovers Logo](https://user-images.githubusercontent.com/73245381/110153588-8ce81400-7de3-11eb-9ae6-18625a8e83c9.png)
 
-ArcadeLovers Logo
+*ArcadeLovers Logo*
 ## **1943**
 
 ...
