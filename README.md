@@ -1,7 +1,7 @@
 # **ArcadeLovers**
 Games Development - Project I - My first amazing game
 
-## **Team**
+## **Team members**
 * Fernando Almendro Martí *Team leader*
 * Damià Fillat Fernández
 * Gerard Martínez Garcia
