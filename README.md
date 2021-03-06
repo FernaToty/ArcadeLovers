@@ -4,24 +4,24 @@ Videogame Development - Project 1 - Our first amazing game
 GAME: *1943 Battle of Midway*
 
 ## TEAM
-* Fernando Almendro Martí 
+**Fernando Almendro Martí** 
 
   * *Team leader*
 
   * *Programmer*
 
-* Damià Fillat Fernández
+**Damià Fillat Fernández**
 
   * *Art*
 
   * *Programmer*
 
-* Gerard Martínez García
+**Gerard Martínez García**
   * *QA* 
 
   * *Programmer*
 
-* Miguel Tamaño Garon
+**Miguel Tamaño Garon**
 
   * *Design* 
 
