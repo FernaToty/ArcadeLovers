@@ -6,23 +6,23 @@ GAME: *1943 Battle of Midway*
 ## TEAM
 * Fernando Almendro Martí 
 
-*Team leader*
+  * *Team leader*
 
-*Programmer*
+  * *Programmer*
 
 * Damià Fillat Fernández
 
-*Art*
+  * *Art*
 
-*Programmer*
+  * *Programmer*
 
 * Gerard Martínez García
-*QA* 
+  * *QA* 
 
-*Programmer*
+  * *Programmer*
 
 * Miguel Tamaño Garon
 
-*Design* 
+  * *Design* 
 
-*Programmer*
+  * *Programmer*
