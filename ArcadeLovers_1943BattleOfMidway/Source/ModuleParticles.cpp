@@ -22,19 +22,21 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	texture = App->textures->Load("Assets/Sprites/bullet.png");
+	texture = App->textures->Load("Assets/Sprites/explosion.png");
 
 	// Explosion particle
-	explosion.anim.PushBack({274, 296, 33, 30});
-	explosion.anim.PushBack({313, 296, 33, 30});
-	explosion.anim.PushBack({346, 296, 33, 30});
-	explosion.anim.PushBack({382, 296, 33, 30});
-	explosion.anim.PushBack({419, 296, 33, 30});
-	explosion.anim.PushBack({457, 296, 33, 30});
+	explosion.anim.PushBack({16, 71, 20, 19});
+	explosion.anim.PushBack({74, 69, 26, 23});
+	explosion.anim.PushBack({77, 61, 33, 34});
+	explosion.anim.PushBack({111, 61, 31, 35});
+	explosion.anim.PushBack({144, 61, 33, 33});
+	explosion.anim.PushBack({179, 61, 33, 32});
+	explosion.anim.PushBack({ 112, 61, 36, 32 });
+	explosion.anim.PushBack({ 247, 61, 34, 31 });
 	explosion.anim.loop = false;
 	explosion.anim.speed = 0.3f;
 
-	laser.anim.PushBack({ 200, 244, 23, 23 });
+	laser.anim.PushBack({ 10, 262, 22, 26 });
 	//laser.anim.PushBack({ 249, 103, 16, 12 });
 	laser.speed.y -= 5;
 	laser.lifetime = 180;

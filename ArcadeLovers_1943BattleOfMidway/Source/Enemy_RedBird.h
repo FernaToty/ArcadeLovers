@@ -29,7 +29,7 @@ private:
 	int waveHeight = 50;
 
 	// The enemy animation
-	Animation flyAnim, flyBack;
+	Animation flyAnim, flyFlip, flyBack;
 
 	// The path that will define the position in the world
 	Path path;

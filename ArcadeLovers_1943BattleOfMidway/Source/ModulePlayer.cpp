@@ -61,6 +61,10 @@ bool ModulePlayer::Start()
 	// TODO 4: Try loading "rtype_font3.png" that has two rows to test if all calculations are correct
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
 	scoreFont = App->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
+	/*char lookupTable1[] = { "E000   1234567890" };
+	char lookupTable2[] = { "01234567890ABCDEFGHIJKMNOPQRSTUVWXYZ" };
+	scoreFont = App->fonts->Load("Assets/scores.png", lookupTable1, 1);*/
+	
 
 	return ret;
 }
