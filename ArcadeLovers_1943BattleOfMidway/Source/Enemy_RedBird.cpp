@@ -38,7 +38,7 @@ Enemy_RedBird::Enemy_RedBird(int x, int y) : Enemy(x, y)
 
 	path.PushBack({ 0.0f, 1.0f }, 500, &flyAnim);
 	path.PushBack({ -0.1f, -1.0f }, 60, &flyFlip);
-	path.PushBack({ 0.0f, -1.5f }, 30000, &flyBack);
+	path.PushBack({ 0.0f, -2.5f }, 30000, &flyBack);
 	path.loop = true;
 
 	collider = App->collisions->AddCollider({0, 0, 35, 30}, Collider::Type::ENEMY, (Module*)App->enemies);

@@ -15,17 +15,17 @@
 ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 {
 	// idle animation - just one sprite
-	idleAnim.PushBack({ 241, 245, 47, 32 });
+	idleAnim.PushBack({ 123, 25, 38, 24 });
 
 	// Move Left
-	leftAnim.PushBack({ 195, 245, 41, 32 });
-	leftAnim.PushBack({ 153, 245, 34, 30 });
+	leftAnim.PushBack({ 81, 26, 34, 23 });
+	leftAnim.PushBack({ 38, 26, 30, 23 });
 	leftAnim.loop = false;
 	leftAnim.speed = 0.1f;
 
 	// Move Right
-	rightAnim.PushBack({ 295, 245, 35, 30 });
-	rightAnim.PushBack({ 345, 245, 40, 31 });
+	rightAnim.PushBack({ 167, 26, 36, 23 });
+	rightAnim.PushBack({ 215, 26, 30, 25 });
 	rightAnim.loop = false;
 	rightAnim.speed = 0.1f;
 }
@@ -41,7 +41,7 @@ bool ModulePlayer::Start()
 
 	bool ret = true;
 
-	texture = App->textures->Load("Assets/Sprites/characteranimationsides.png");
+	texture = App->textures->Load("Assets/Sprites/characteranimation.png");
 	currentAnimation = &idleAnim;
 
 	laserFx = App->audio->LoadFx("Assets/Fx/shoot.wav");
@@ -52,7 +52,7 @@ bool ModulePlayer::Start()
 
 	destroyed = false;
 
-	collider = App->collisions->AddCollider({ position.x, position.y, 47, 32 }, Collider::Type::PLAYER, this);
+	collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
 
 	// TODO 0: Notice how a font is loaded and the meaning of all its arguments 
 	//char lookupTable[] = { "!  ,_./0123456789$;<&?abcdefghijklmnopqrstuvwxyz" };

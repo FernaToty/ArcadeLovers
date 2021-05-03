@@ -29,10 +29,10 @@ bool SceneLevel1::Start()
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
 	// Enemies ---
-	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 200, 12090);
-	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 220, 12070);
-	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 240, 12050);
-	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 260, 12030);
+	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 120, 12090);
+	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 160, 12060);
+	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 200, 12030);
+	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 240, 12000);
 
 	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 735, 120);
 	App->enemies->AddEnemy(Enemy_Type::REDBIRD, 750, 120);
