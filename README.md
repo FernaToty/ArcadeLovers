@@ -10,16 +10,12 @@ GAME: *1943 Battle of Midway*
 
   * *Programmer*
 
-**Damià Fillat Fernández**
-
-  * *Art*
-
-  * *Programmer*
-
 **Gerard Martínez García**
   * *QA* 
 
   * *Programmer*
+
+  * *Art*
 
 **Miguel Tamaño Garon**
 
