@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleCollisions.h"
+#include "Path.h"
 
 #include "SDL/include/SDL_timer.h"
 
@@ -25,27 +26,69 @@ bool ModuleParticles::Start()
 	texture = App->textures->Load("Assets/Sprites/explosion.png");
 
 	// Explosion particle
-	explosion.anim.PushBack({16, 71, 20, 19});
-	explosion.anim.PushBack({74, 69, 26, 23});
-	explosion.anim.PushBack({77, 61, 33, 34});
-	explosion.anim.PushBack({111, 61, 31, 35});
-	explosion.anim.PushBack({144, 61, 33, 33});
-	explosion.anim.PushBack({179, 61, 33, 32});
-	explosion.anim.PushBack({ 112, 61, 36, 32 });
-	explosion.anim.PushBack({ 247, 61, 34, 31 });
+	explosion.anim.PushBack({  85, 91, 23, 22 });
+	explosion.anim.PushBack({ 116, 88, 35, 31 });
+	explosion.anim.PushBack({ 151, 88, 38, 30 });
+	explosion.anim.PushBack({ 188, 86, 35, 31 });
+	explosion.anim.PushBack({ 225, 84, 36, 33 });
+	explosion.anim.PushBack({ 262, 84, 36, 32 });
+	explosion.anim.PushBack({ 298, 83, 38, 34 });
+	explosion.anim.PushBack({ 335, 80, 37, 34 });
 	explosion.anim.loop = false;
 	explosion.anim.speed = 0.3f;
 
-	laser.anim.PushBack({ 10, 262, 22, 26 });
+	// Death explosion
+	death.anim.PushBack({  60, 311, 36, 30 });
+	death.anim.PushBack({ 102, 310, 44, 33 });
+	death.anim.PushBack({ 152, 313, 47, 35 });
+	death.anim.PushBack({ 201, 312, 45, 39 });
+	death.anim.PushBack({ 247, 307, 52, 43 });
+	death.anim.PushBack({ 296, 308, 50, 45 });
+	death.anim.PushBack({ 352, 306, 44, 45 });
+	death.anim.PushBack({ 404, 305, 48, 48 });
+	death.anim.PushBack({  58, 352, 42, 48 });
+	death.anim.PushBack({  79, 352, 39, 48 });
+	death.anim.PushBack({ 110, 352, 43, 54 });
+	death.anim.PushBack({ 156, 352, 49, 52 });
+	death.anim.PushBack({ 205, 351, 49, 55 });
+	death.anim.PushBack({ 254, 352, 50, 53 });
+	death.anim.PushBack({ 304, 352, 51, 49 });
+	death.anim.PushBack({ 355, 352, 50, 53 });
+	death.anim.PushBack({ 409, 364, 42, 41 });
+	death.anim.loop = false;
+	death.speed.y -= 2;
+	death.anim.speed = 0.1f;
+
+	// 3-Way Power-up animation
+	threeWayL.anim.PushBack({ 283, 421, 19, 23 });
+	threeWayL.speed.y -= 5;
+	threeWayL.speed.x -= 2;
+	threeWayL.lifetime = 180;
+
+	threeWayR.anim.PushBack({ 329, 421, 17, 23 });
+	threeWayR.speed.y -= 5;
+	threeWayR.speed.x += 2;
+	threeWayR.lifetime = 180;
+
+
+	laser.anim.PushBack({ 305, 421, 21, 24 });
 	//laser.anim.PushBack({ 249, 103, 16, 12 });
 	laser.speed.y -= 5;
 	laser.lifetime = 180;
 	laser.anim.speed = 0.2f;
 
-	automatic.anim.PushBack({ 200, 244, 23, 23 });
+	automatic.anim.PushBack({ 159, 283, 23, 23 });
 	automatic.speed.y -= 5;
 	automatic.lifetime = 300;
 	automatic.anim.speed = 0.2f;
+
+	// 3Way Power-up anim
+	threeWay.anim.PushBack({ 155, 482, 31, 29 });
+	threeWay.anim.PushBack({ 185, 482, 29, 28 });
+	threeWay.anim.PushBack({ 213, 484, 29, 28 });
+	threeWay.anim.PushBack({ 241, 484, 29, 28 });
+	threeWay.anim.loop = true;
+	threeWay.anim.speed = 0.1f;
 
 	return true;
 }
@@ -93,6 +136,7 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 			particles[i]->collider->pendingToDelete = true;
 			break;
 		}
+			
 	}
 }
 

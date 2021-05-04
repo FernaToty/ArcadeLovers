@@ -9,12 +9,16 @@
 #include "SceneIntro.h"
 #include "SceneMenu.h"
 #include "SceneLevel1.h"
+#include "SceneWin.h"
 #include "ModuleParticles.h"
 #include "ModuleEnemies.h"
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFonts.h"
 #include "ModuleRender.h"
+#include "teamMembers.h"
+#include "ProjectTutors.h"
+
 
 Application::Application()
 {
@@ -27,17 +31,20 @@ Application::Application()
 	modules[2] =	textures =		new ModuleTextures(true);
 	modules[3] =	audio =			new ModuleAudio(true);
 
-	modules[4] =	sceneIntro =	new SceneIntro(true);
-	modules[5] =    sceneMenu =     new SceneMenu(false);       //Menu scene starts disabled
-	modules[6] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
-	modules[7] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[8] =	particles =		new ModuleParticles(true);
-	modules[9] =	enemies =		new ModuleEnemies(false);	//Enemies start disabled
+	modules[4] =    teamMembers  =  new TeamMembers(true);
+	modules[5] =    projectTutors = new ProjectTutors(false);
+	modules[6] =	sceneIntro =	new SceneIntro(false);
+	modules[7] =    sceneMenu =     new SceneMenu(false);        //Menu scene starts disabled
+	modules[8] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
+	modules[9] =    sceneWin =      new SceneWin(false);        //Win state screen
+	modules[10] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[11] =	particles =		new ModuleParticles(true);
+	modules[12] =	enemies =		new ModuleEnemies(false);	//Enemies start disabled
 
-	modules[10] =	collisions =	new ModuleCollisions(true);
-	modules[11] =	fade =			new ModuleFadeToBlack(true);
-	modules[12] =	fonts =			new ModuleFonts(true);
-	modules[13] =	render =		new ModuleRender(true);
+	modules[13] =	collisions =	new ModuleCollisions(true);
+	modules[14] =	fade =			new ModuleFadeToBlack(true);
+	modules[15] =	fonts =			new ModuleFonts(true);
+	modules[16] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

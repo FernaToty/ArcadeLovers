@@ -28,6 +28,9 @@ ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 	rightAnim.PushBack({ 215, 26, 30, 25 });
 	rightAnim.loop = false;
 	rightAnim.speed = 0.1f;
+
+	//R = Dodge
+	dodgeForward.PushBack({});
 }
 
 ModulePlayer::~ModulePlayer()
@@ -61,9 +64,9 @@ bool ModulePlayer::Start()
 	// TODO 4: Try loading "rtype_font3.png" that has two rows to test if all calculations are correct
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
 	scoreFont = App->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
-	/*char lookupTable1[] = { "E000   1234567890" };
-	char lookupTable2[] = { "01234567890ABCDEFGHIJKMNOPQRSTUVWXYZ" };
-	scoreFont = App->fonts->Load("Assets/scores.png", lookupTable1, 1);*/
+	//char lookupTable1[] = { "E000   1234567890" };
+	//char lookupTable2[] = { "01234567890ABCDEFGHIJKMNOPQRSTUVWXYZ" };
+	//scoreFont = App->fonts->Load("Assets/scores.png", lookupTable1, 1);
 	
 
 	return ret;
@@ -111,14 +114,24 @@ Update_Status ModulePlayer::Update()
 		App->audio->PlayFx(laserFx);
 	}
 
-	// these lines of code have to be revised, it is supposed to be an automatic shooter when holding SPACE.
-	/*if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_REPEAT)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
 	{
-		Particle* newParticle1 = App->particles->AddParticle(App->particles->automatic, position.x + 12, position.y + 1, Collider::Type::PLAYER_SHOT);
-		App->audio->PlayFx(laserFx);
-	}*/
+		App->particles->AddParticle(App->particles->death, position.x, position.y, Collider::Type::NONE, 9);
+		App->audio->PlayFx(explosionFx);
+		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60);
+		destroyed = true;
+	}
 
-	if (position.x == 450)
+	//3-Way Power-up logic
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && threeWay)
+	{
+		App->particles->AddParticle(App->particles->laser, position.x + 12, position.y + 1, Collider::Type::PLAYER_SHOT);
+		App->particles->AddParticle(App->particles->threeWayL, position.x + 10, position.y + 1, Collider::Type::PLAYER_SHOT);
+		App->particles->AddParticle(App->particles->threeWayR, position.x + 14, position.y + 1, Collider::Type::PLAYER_SHOT);
+		App->audio->PlayFx(laserFx);
+	}
+
+	if (position.x == 465)
 	{
 		position.x -= speed ;
 	}
@@ -142,6 +155,11 @@ Update_Status ModulePlayer::Update()
 	collider->SetPos(position.x, position.y);
 
 	currentAnimation->Update();
+
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN)
+	{
+		godMode = !godMode;
+	}
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -173,20 +191,51 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1 == collider && destroyed == false)
 	{
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y, Collider::Type::NONE, 9);
-		App->particles->AddParticle(App->particles->explosion, position.x + 8, position.y + 11, Collider::Type::NONE, 14);
-		App->particles->AddParticle(App->particles->explosion, position.x - 7, position.y + 12, Collider::Type::NONE, 40);
-		App->particles->AddParticle(App->particles->explosion, position.x + 5, position.y - 5, Collider::Type::NONE, 28);
-		App->particles->AddParticle(App->particles->explosion, position.x - 4, position.y - 4, Collider::Type::NONE, 21);
+		if(life!=0)
+		{
+		    if (c1 == collider && c2->type == Collider::Type::POWERUP)
+		    {
+			    threeWay = true;
+			    threeWayTimer = 0;
+			    destroyed = false;
+		    }
+		    else if (c1 == collider && c2->type == Collider::Type::ENEMY)
+		    {
+				life--;
+		    }
 
-		App->audio->PlayFx(explosionFx);
-		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
+		    if (c1 == collider && c2->type == Collider::Type::WIN)
+		    {
+			    App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneWin, 60);
+			    position.x = 0;
+			    position.y = 0;
 
-		destroyed = true;
+		    }
+		}
+		//Player explosion anim
+		else if(life=0) 
+		{
+			App->particles->AddParticle(App->particles->death, position.x, position.y, Collider::Type::NONE, 9);
+			App->audio->PlayFx(explosionFx);
+			destroyed = true;
+			App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60); 
+		}
 	}
+	
+
+	/*if (destroyed = true)
+	{
+		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60);
+	}*/
 
 	if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
 	{
-		score += 23;
+		score += 10;
+	}
+
+	if (c1 == collider && c2->type == Collider::Type::POWERUP)
+	{
+		threeWay = true;
+		threeWayTimer = 0;
 	}
 }

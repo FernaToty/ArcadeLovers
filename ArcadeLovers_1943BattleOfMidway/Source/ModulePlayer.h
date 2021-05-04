@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "Path.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -32,6 +33,8 @@ public:
 	// Collision callback, called when the player intersects with another collider
 	void OnCollision(Collider* c1, Collider* c2) override;
 
+	uint life = 3;
+
 public:
 	// Position of the player in the map
 	iPoint position;
@@ -52,22 +55,31 @@ public:
 	Animation downAnim;
 	Animation rightAnim;
 	Animation leftAnim;
+	Animation dodgeForward;
+	Animation dodgeBack;
 
 	// The player's collider
 	Collider* collider = nullptr;
 
 	// A flag to detect when the player has been destroyed
 	bool destroyed = false;
+	bool godMode = false;
 
 	// Sound effects indices
 	uint laserFx = 0;
 	uint explosionFx = 0;
+	uint threeWayFx = 0;
 
 	// Font score index
 	uint score = 000;
 	int scoreFont = -1;
 	char scoreText[10] = { "\0" };
 
+	//Path for animation
+	Path path;
+
+	bool threeWay = false;
+	int threeWayTimer = 0;
 };
 
 #endif //!__MODULE_PLAYER_H__

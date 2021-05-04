@@ -32,12 +32,11 @@ bool SceneIntro::Start()
 	return ret;
 }
 
+
+
 Update_Status SceneIntro::Update()
 {
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
-	{
-		App->fade->FadeToBlack(this, (Module*)App->sceneMenu, 90);
-	}
+	App->fade->FadeToBlack(this, (Module*)App->sceneWin, 180);
 
 	return Update_Status::UPDATE_CONTINUE;
 }

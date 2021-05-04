@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "Particle.h"
 #include "Collider.h"
+#include "Path.h"
 
 #define MAX_ACTIVE_PARTICLES 100
 
@@ -56,11 +57,19 @@ public:
 	//Template particle for an explosion
 	Particle explosion;
 
+	//Template particle for an explosion of players death
+	Particle death;
+
 	//Template particle for a laser
 	Particle laser;
 
 	//Template particle for a automatic shoot
 	Particle automatic;
+
+	//Template particle for 3-way powerup
+	Particle threeWayL;
+	Particle threeWayR;
+	Particle threeWay;
 
 private:
 	// Particles spritesheet loaded into an SDL Texture

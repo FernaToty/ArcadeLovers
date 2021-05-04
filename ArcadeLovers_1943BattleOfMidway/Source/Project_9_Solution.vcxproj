@@ -78,15 +78,16 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Enemy_BrownShip.h" />
+    <ClInclude Include="Enemy_GreenPlane2.h" />
     <ClInclude Include="Enemy_Mech.h" />
-    <ClInclude Include="Enemy_RedBird.h" />
+    <ClInclude Include="Enemy_GreenPlane.h" />
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleCollisions.h" />
     <ClInclude Include="ModuleEnemies.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="ModuleFonts.h" />
     <ClInclude Include="ModuleParticles.h" />
+    <ClInclude Include="ProjectTutors.h" />
     <ClInclude Include="SceneIntro.h" />
     <ClInclude Include="SceneLevel1.h" />
     <ClInclude Include="ModuleInput.h" />
@@ -101,14 +102,16 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="SceneMenu.h" />
+    <ClInclude Include="SceneWin.h" />
+    <ClInclude Include="teamMembers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Enemy_BrownShip.cpp" />
+    <ClCompile Include="Enemy_GreenPlane2.cpp" />
     <ClCompile Include="Enemy_Mech.cpp" />
-    <ClCompile Include="Enemy_RedBird.cpp" />
+    <ClCompile Include="Enemy_GreenPlane.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCollisions.cpp" />
@@ -116,6 +119,7 @@
     <ClCompile Include="ModuleFadeToBlack.cpp" />
     <ClCompile Include="ModuleFonts.cpp" />
     <ClCompile Include="ModuleParticles.cpp" />
+    <ClCompile Include="ProjectTutors.cpp" />
     <ClCompile Include="SceneIntro.cpp" />
     <ClCompile Include="SceneLevel1.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
@@ -128,6 +132,8 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="SceneMenu.cpp" />
+    <ClCompile Include="SceneWin.cpp" />
+    <ClCompile Include="teamMembers.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
