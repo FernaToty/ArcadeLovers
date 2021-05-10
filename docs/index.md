@@ -1,3 +1,10 @@
+# **ARCADELOVERS Studios - Project I: 1943 Battle of Midway**
+
+Specialized in Games Development 
+
+![Arcade Lovers Logo](https://user-images.githubusercontent.com/73245381/110156431-3d0b4c00-7de7-11eb-927a-4c323ad0876d.png)
+
+_ARCADE LOVERS logo_
 ## Game Title
 ![Alt Text](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/1943_The_Battle_of_Midway_Logo.svg/1200px-1943_The_Battle_of_Midway_Logo.svg.png)
 
