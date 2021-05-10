@@ -1,8 +1,25 @@
-## Welcome to GitHub Pages
+GAME: 1943 Battle of Midway
 
-You can use the [editor on GitHub](https://github.com/FernaToty/ArcadeLovers/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## TEAM
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**Fernando Almendro Martí** 
+
+  * *Team leader*
+
+  * *Programmer*
+
+**Gerard Martínez García**
+  * *QA* 
+
+  * *Programmer*
+
+  * *Art*
+
+**Miguel Tamaño Garon**
+
+  * *Design* 
+
+  * *Programmer*
 
 ### Markdown
 
