@@ -22,17 +22,49 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ## Controls
 ```markdown
-Keyboard Player 1:
+**Keyboard Player 1:**
 
- W Key: Move up
+ - W Key: Move Up
  
- D Key: Move right
+ - D Key: Move Right
  
- A Key: Move left
+ - A Key: Move Left
  
- S Key: Move backwards
+ - S Key: Move Backwards
  
- SPACE Key: Shot
+ - SPACE Key: Shot
+ 
+ 
+ **Keyboard Player 2:**     ?
+
+ - UP_ARROW Key: Move Up
+ 
+ - RIGHT_ARROW Key: Move Right
+ 
+ - LEFT_ARROW Key: Move Left
+ 
+ - DOWN_ARROW Key: Move Backwards
+ 
+ - 1 Key (NUMPAD): Shot
+
+ - 2 Key (NUMPAD): Join the Game
+
+**General controls:**
+
+ - SPACE Key: Skip Screen
+ 
+ - ESC Key: Exit Game
+
+**Gamepad:**
+
+
+
+**Developer Mode:**
+
+
+
+
+
  ```
  
 ## TEAM
