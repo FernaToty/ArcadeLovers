@@ -36,7 +36,10 @@ bool ProjectTutors::Start()
 
 Update_Status ProjectTutors::Update()
 {
-	App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 260);
+	
+	
+		App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 50);
+	
 
 	return Update_Status::UPDATE_CONTINUE;
 }

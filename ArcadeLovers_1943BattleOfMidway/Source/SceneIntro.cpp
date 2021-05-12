@@ -36,7 +36,10 @@ bool SceneIntro::Start()
 
 Update_Status SceneIntro::Update()
 {
-	App->fade->FadeToBlack(this, (Module*)App->sceneWin, 180);
+	
+	
+		App->fade->FadeToBlack(this, (Module*)App->sceneMenu, 50);
+	
 
 	return Update_Status::UPDATE_CONTINUE;
 }

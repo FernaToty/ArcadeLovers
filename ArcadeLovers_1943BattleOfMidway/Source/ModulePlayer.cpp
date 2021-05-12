@@ -199,7 +199,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			    threeWayTimer = 0;
 			    destroyed = false;
 		    }
-		    else if (c1 == collider && c2->type == Collider::Type::ENEMY)
+		    
+			if (c1 == collider && c2->type == Collider::Type::ENEMY)
 		    {
 				life--;
 		    }
@@ -213,7 +214,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		    }
 		}
 		//Player explosion anim
-		else if(life=0) 
+		else if(life==0) 
 		{
 			App->particles->AddParticle(App->particles->death, position.x, position.y, Collider::Type::NONE, 9);
 			App->audio->PlayFx(explosionFx);

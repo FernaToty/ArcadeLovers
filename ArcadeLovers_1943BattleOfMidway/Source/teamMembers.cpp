@@ -37,8 +37,9 @@ bool TeamMembers::Start()
 Update_Status TeamMembers::Update()
 {
 	
-	App->fade->FadeToBlack(this, (Module*)App->projectTutors, 500);
-
+	
+		App->fade->FadeToBlack(this, (Module*)App->projectTutors, 50);
+	
 
 	return Update_Status::UPDATE_CONTINUE;
 }
