@@ -47,13 +47,19 @@ Keyboard Player 1:
  D: Move right
  A: Move left
  S: Move backwards
- SPACE: Shot
- 
+
+- Bulleted
+- List
+
+1. Numbered
+2. List
+
+**Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+For more information see our WIKI here [GitHub Flavored Markdown](https://github.com/FernaToty/ArcadeLovers/wiki).
 
 ### Jekyll Themes
 
