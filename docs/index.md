@@ -52,7 +52,7 @@ Keyboard Player 1:
 [Link](url) and ![Image](src)
 ```
 
-## For more information see our WIKI here [GitHub Flavored Markdown](https://github.com/FernaToty/ArcadeLovers/wiki).
+## For more information see our WIKI [HERE](https://github.com/FernaToty/ArcadeLovers/wiki).
 
 ### Jekyll Themes
 
