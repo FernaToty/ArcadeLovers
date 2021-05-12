@@ -56,11 +56,7 @@ Keyboard Player 1:
 
 ## For more information see our WIKI [HERE](https://github.com/FernaToty/ArcadeLovers/wiki).
 ## Download the last version of the game [HERE](https://github.com/FernaToty/ArcadeLovers/releases).
+## Check our github repository [HERE](https://github.com/FernaToty/ArcadeLovers).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/FernaToty/ArcadeLovers/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
