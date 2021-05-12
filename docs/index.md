@@ -18,6 +18,17 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ![1943 ScreenShots](https://user-images.githubusercontent.com/73245381/110165533-5a461780-7df3-11eb-9fde-0209e598614d.gif)
 
+### Controls
+
+```markdown
+Keyboard Player 1:
+
+ W Key: Move up
+ D Key: Move right
+ A Key: Move left
+ S Key: Move backwards
+ SPACE Key: Shot
+ 
 ## TEAM
 ![Team Photo](https://user-images.githubusercontent.com/73245381/110169063-6a142a80-7df8-11eb-9433-5459cbe2f028.png)
 
@@ -40,19 +51,9 @@ The game consists in shooting the most enemy plains and airships possible withou
 
   * *Programmer*
 
-### Controls
 
-```markdown
-Keyboard Player 1:
-
- W Key: Move up
- D Key: Move right
- A Key: Move left
- S Key: Move backwards
- SPACE Key: Shot
  
-[Link](url) and ![Image](src)
-```
+
 
 ## For more information see our WIKI [HERE](https://github.com/FernaToty/ArcadeLovers/wiki).
 ## Download the last version of the game [HERE](https://github.com/FernaToty/ArcadeLovers/releases).
