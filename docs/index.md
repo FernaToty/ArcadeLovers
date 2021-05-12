@@ -1,4 +1,5 @@
-# **ARCADELOVERS Studios - Project I: 1943 Battle of Midway**
+# **ARCADELOVERS Studios 
+- Project I: 1943 Battle of Midway**
 
 Specialized in Games Development 
 
