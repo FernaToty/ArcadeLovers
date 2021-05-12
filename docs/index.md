@@ -33,6 +33,7 @@ Keyboard Player 1:
  S Key: Move backwards
  
  SPACE Key: Shot
+ ```
  
 ## TEAM
 ![Team Photo](https://user-images.githubusercontent.com/73245381/110169063-6a142a80-7df8-11eb-9433-5459cbe2f028.png)
