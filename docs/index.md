@@ -34,6 +34,7 @@ Keyboard Player 1:
  
  - SPACE Key: Shot
   
+  
  Keyboard Player 2:     ?
 
  - UP_ARROW Key: Move Up
@@ -48,11 +49,13 @@ Keyboard Player 1:
 
  - 2 Key (NUMPAD): Join the Game
  
+ 
 General controls:
 
  - SPACE Key: Skip Screen
  
  - ESC Key: Exit Game
+
 
 Gamepad:
 
