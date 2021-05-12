@@ -1,5 +1,5 @@
-# ARCADE LOVERS Studios 
-# Project I: 1943 The Battle of Midway
+# ARCADELOVERS Studios 
+# Project I: 1943 Battle of Midway
 
 Specialized in Games Development 
 
@@ -41,15 +41,23 @@ The game consists in shooting the most enemy plains and airships possible withou
 ### Controls
 
 ```markdown
-Player 1:
+Keyboard Player 1:
+ 
+ -W: Move up
+ -D: Move right
+ -A: Move left
+ -S: Move backwards
+ -SPACE: shoot
+ 
+ Keyboard Player 2:
+ -Right arrow: Move right
+ -Left arrow:Move left
+ -Upper arrow: Move up
+ -Down arrow: Move backwards
+ -P letter: shoot
 
- W: Move up
- D: Move right
- A: Move left
- S: Move backwards
+Gamepad Controls:
 
-- Bulleted
-- List
 
 1. Numbered
 2. List
