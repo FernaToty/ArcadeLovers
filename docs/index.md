@@ -40,14 +40,13 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ### Controls
 
-Player 1 controls:
-
 ```markdown
-Syntax highlighted code block
+Player 1:
 
-# Header 1
-## Header 2
-### Header 3
+# W: Move up
+## D: Move right
+### A: Move left
+#### S: Move backwards
 
 - Bulleted
 - List
