@@ -48,12 +48,14 @@ The game consists in shooting the most enemy plains and airships possible withou
  - 1 Key (NUMPAD): Shot
 
  - 2 Key (NUMPAD): Join the Game
+ - 
 
 **General controls:**
 
  - SPACE Key: Skip Screen
  
  - ESC Key: Exit Game
+
 
 **Gamepad:**
 
