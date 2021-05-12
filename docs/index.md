@@ -55,6 +55,7 @@ Keyboard Player 1:
 ```
 
 ## For more information see our WIKI [HERE](https://github.com/FernaToty/ArcadeLovers/wiki).
+## Download the last version of the game [HERE](https://github.com/FernaToty/ArcadeLovers/releases).
 
 ### Jekyll Themes
 
