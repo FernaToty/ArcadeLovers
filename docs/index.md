@@ -43,19 +43,12 @@ The game consists in shooting the most enemy plains and airships possible withou
 ```markdown
 Keyboard Player 1:
 
- W: Move up
- D: Move right
- A: Move left
- S: Move backwards
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
+ W Key: Move up
+ D Key: Move right
+ A Key: Move left
+ S Key: Move backwards
+ SPACE Key: Shot
+ 
 [Link](url) and ![Image](src)
 ```
 
