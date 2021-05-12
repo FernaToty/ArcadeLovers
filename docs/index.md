@@ -43,10 +43,10 @@ The game consists in shooting the most enemy plains and airships possible withou
 ```markdown
 Player 1:
 
-# W: Move up
-## D: Move right
-### A: Move left
-#### S: Move backwards
+ W: Move up
+ D: Move right
+ A: Move left
+ S: Move backwards
 
 - Bulleted
 - List
