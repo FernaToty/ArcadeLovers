@@ -47,14 +47,8 @@ Keyboard Player 1:
  D: Move right
  A: Move left
  S: Move backwards
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
+ SPACE: Shot
+ 
 
 [Link](url) and ![Image](src)
 ```
