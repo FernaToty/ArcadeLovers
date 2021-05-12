@@ -38,9 +38,9 @@ The game consists in shooting the most enemy plains and airships possible withou
 
   * *Programmer*
 
-### Markdown
+### Controls
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Player 1 controls:
 
 ```markdown
 Syntax highlighted code block
