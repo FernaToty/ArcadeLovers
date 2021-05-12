@@ -22,7 +22,6 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ## Controls
 
-```markdown
 Keyboard Player 1:
 
  W Key: Move up
