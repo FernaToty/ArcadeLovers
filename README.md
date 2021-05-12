@@ -1,7 +1,7 @@
 # ArcadeLovers
-Videogame Development - Project 1 - Our first amazing game
+Videogame Development - Project 1: Tribute to 1943 The Battle of Midway arcade game
 
-GAME: *1943 Battle of Midway*
+GAME: *1943 The Battle of Midway*
 
 ## TEAM
 **Fernando Almendro Martí** 
