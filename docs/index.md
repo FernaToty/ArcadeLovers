@@ -22,7 +22,7 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ## Controls
 ```markdown
-**Keyboard Player 1:*
+Keyboard Player 1:
 
  - W Key: Move Up
  
@@ -33,9 +33,8 @@ The game consists in shooting the most enemy plains and airships possible withou
  - S Key: Move Backwards
  
  - SPACE Key: Shot
- 
- 
- **Keyboard Player 2:**     ?
+  
+ Keyboard Player 2:     ?
 
  - UP_ARROW Key: Move Up
  
@@ -48,20 +47,18 @@ The game consists in shooting the most enemy plains and airships possible withou
  - 1 Key (NUMPAD): Shot
 
  - 2 Key (NUMPAD): Join the Game
- - 
-
-**General controls:**
+ 
+General controls:
 
  - SPACE Key: Skip Screen
  
  - ESC Key: Exit Game
 
-
-**Gamepad:**
-
+Gamepad:
 
 
-**Developer Mode:**
+
+Developer Mode:
 
 
 
