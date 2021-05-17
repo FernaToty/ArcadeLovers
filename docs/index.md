@@ -10,6 +10,7 @@ _ARCADE LOVERS logo_
 ![Alt Text](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/1943_The_Battle_of_Midway_Logo.svg/1200px-1943_The_Battle_of_Midway_Logo.svg.png)
 
 ## Our Project
+We’re going to replicate the 1943 The Battle of Midway game, one arcade version developed and published by Capcom as a tribute to the game. This project has been done by three catalan students of CITM - UPC (Barcelona, Spain).
 
 ## Game Description
 1943 The Battle of Midway is a shoot'em up game developed in Japan by CapCom and lauched in 1987. This game is the follow up of the previous game which was 1942. The story of the game is mainly ispired from the battle between aircrafts on the island of Midway over the Pacific Ocean in the middle of the Second World War.
