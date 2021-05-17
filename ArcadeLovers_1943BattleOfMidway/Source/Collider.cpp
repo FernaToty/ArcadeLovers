@@ -23,7 +23,7 @@ void Collider::AddListener(Module* listener)
 {
 	for (int i = 0; i < MAX_LISTENERS; ++i)
 	{
- 		if (listeners[i] == nullptr)
+		if (listeners[i] == nullptr)
 		{
 			listeners[i] = listener;
 			break;

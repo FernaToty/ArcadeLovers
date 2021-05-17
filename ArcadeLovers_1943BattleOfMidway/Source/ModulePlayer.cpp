@@ -191,7 +191,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1 == collider && destroyed == false)
 	{
-		if(life!=0)
+		if(App->player->life != 0)
 		{
 		    if (c1 == collider && c2->type == Collider::Type::POWERUP)
 		    {
@@ -199,22 +199,21 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			    threeWayTimer = 0;
 			    destroyed = false;
 		    }
-		    
-			if (c1 == collider && c2->type == Collider::Type::ENEMY)
+		    else if (c1 == collider && c2->type == Collider::Type::ENEMY)
 		    {
 				life--;
+				destroyed = false;
 		    }
-
-		    if (c1 == collider && c2->type == Collider::Type::WIN)
-		    {
-			    App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneWin, 60);
-			    position.x = 0;
-			    position.y = 0;
-
-		    }
+			
+			if (c1 == collider && c2->type == Collider::Type::WIN)
+			{
+				App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneWin, 60);
+				position.x = 0;
+				position.y = 0;
+			}
 		}
 		//Player explosion anim
-		else if(life==0) 
+		else if(App->player->life == 0)
 		{
 			App->particles->AddParticle(App->particles->death, position.x, position.y, Collider::Type::NONE, 9);
 			App->audio->PlayFx(explosionFx);
@@ -222,7 +221,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60); 
 		}
 	}
-	
 
 	/*if (destroyed = true)
 	{
@@ -238,5 +236,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		threeWay = true;
 		threeWayTimer = 0;
+		destroyed = false;
 	}
 }

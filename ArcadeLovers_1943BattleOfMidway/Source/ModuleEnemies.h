@@ -9,7 +9,7 @@ enum class Enemy_Type
 {
 	NO_TYPE,
 	GREENPLANE,
-	GREENPLANE2,
+	BROWNSHIP,
 	MECH,
 };
 

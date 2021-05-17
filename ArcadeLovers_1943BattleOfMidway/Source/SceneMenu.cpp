@@ -24,7 +24,7 @@ bool SceneMenu::Start()
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/1943Title.png");
+	bgTexture = App->textures->Load("Assets/Sprites/1943Logo.png");
 	App->audio->PlayMusic("Assets/Music/Title.ogg", 1.0f);
 
 	App->render->camera.x = 0;
