@@ -211,6 +211,11 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				position.x = 0;
 				position.y = 0;
 			}
+
+			if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
+			{
+				score += 10;
+			}
 		}
 		//Player explosion anim
 		else if(App->player->life == 0)
@@ -220,6 +225,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			destroyed = true;
 			App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60); 
 		}
+
+
 	}
 
 	/*if (destroyed = true)
@@ -227,15 +234,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneMenu, 60);
 	}*/
 
-	if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
-	{
-		score += 10;
-	}
 
-	if (c1 == collider && c2->type == Collider::Type::POWERUP)
-	{
-		threeWay = true;
-		threeWayTimer = 0;
-		destroyed = false;
-	}
+
 }
