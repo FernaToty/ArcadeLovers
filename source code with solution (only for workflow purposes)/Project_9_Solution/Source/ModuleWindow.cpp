@@ -27,19 +27,15 @@ bool ModuleWindow::Init()
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
 
-		if (WIN_FULLSCREEN == true)
-			flags |= SDL_WINDOW_FULLSCREEN;
+		if (WIN_FULLSCREEN == true) flags |= SDL_WINDOW_FULLSCREEN;
 
-		if (WIN_BORDERLESS == true)
-			flags |= SDL_WINDOW_BORDERLESS;
+		if (WIN_BORDERLESS == true) flags |= SDL_WINDOW_BORDERLESS;
 
-		if (WIN_RESIZABLE == true)
-			flags |= SDL_WINDOW_RESIZABLE;
+		if (WIN_RESIZABLE == true) flags |= SDL_WINDOW_RESIZABLE;
 
-		if (WIN_FULLSCREEN_DESKTOP == true)
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+		if (WIN_FULLSCREEN_DESKTOP == true) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-		window = SDL_CreateWindow("1943, Battle of Midway (Prototype)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE, flags);
+		window = SDL_CreateWindow("1943, Battle of Midway - ArcadeLovers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE, flags);
 
 		if (window == nullptr)
 		{
@@ -68,6 +64,12 @@ bool ModuleWindow::CleanUp()
 
 	return true;
 }
+
+void ModuleWindow::SetWinTitle(const char* title)
+{
+	SDL_SetWindowTitle(window, title);
+}
+
 
 
 
