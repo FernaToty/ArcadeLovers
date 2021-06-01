@@ -29,7 +29,8 @@ bool SceneLevel1::Start()
 	healtBar5 = App->textures->Load("Assets/Sprites/life_bar_5.png");
 	healtBar9 = App->textures->Load("Assets/Sprites/life_bar_9.png");
 
-	bgTexture = App->textures->Load("Assets/Sprites/clouds.png");
+	bgTexture = App->textures->Load("Assets/Sprites/water.png");
+	Clouds= App->textures->Load("Assets/Sprites/clouds.png");
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
 	// Enemies ---
@@ -73,6 +74,7 @@ Update_Status SceneLevel1::PostUpdate()
 {
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
+	App->render->Blit(Clouds, 0, -3000, NULL, 0.8f);
 
 	switch (App->player->life)
 	{

@@ -35,6 +35,7 @@ public:
 	
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
+	SDL_Texture* Clouds    = nullptr;
 	SDL_Texture* healtBar1 = nullptr;
 	SDL_Texture* healtBar2 = nullptr;
 	SDL_Texture* healtBar3 = nullptr;
