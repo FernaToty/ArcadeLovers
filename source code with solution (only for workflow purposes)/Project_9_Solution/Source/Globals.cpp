@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include <windows.h>
 #include <stdio.h>
 
