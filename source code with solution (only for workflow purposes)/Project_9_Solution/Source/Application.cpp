@@ -31,10 +31,10 @@ Application::Application()
 	modules[2] =	textures =		new ModuleTextures(true);
 	modules[3] =	audio =			new ModuleAudio(true);
 
-	modules[4] =    teamMembers  =  new TeamMembers(true);
+	modules[4] =    teamMembers  =  new TeamMembers(false);
 	modules[5] =    projectTutors = new ProjectTutors(false);
 	modules[6] =	sceneIntro =	new SceneIntro(false);
-	modules[7] =    sceneMenu =     new SceneMenu(false);        //Menu scene starts disabled
+	modules[7] =    sceneMenu =     new SceneMenu(true);        //Menu scene starts disabled
 	modules[8] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
 	modules[9] =    sceneWin =      new SceneWin(false);        //Win state screen
 	modules[10] =	player =		new ModulePlayer(false);	//Player starts disabled
