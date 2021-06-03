@@ -17,30 +17,42 @@ ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
 	matrix[Collider::Type::WALL][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::WALL][Collider::Type::PLAYER_SHOT] = true;
 	matrix[Collider::Type::WALL][Collider::Type::ENEMY_SHOT] = true;
+	matrix[Collider::Type::WALL][Collider::Type::WIN] = false;
 
 	matrix[Collider::Type::PLAYER][Collider::Type::WALL] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::PLAYER] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = true;
+	matrix[Collider::Type::PLAYER][Collider::Type::WIN] = true;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::WALL] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER_SHOT] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::WIN] = false;
 
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::WALL] = true;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::PLAYER] = false;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::WIN] = false;
 
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::WALL] = true;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::WIN] = false;
+
+	matrix[Collider::Type::WIN][Collider::Type::WALL] = false;
+	matrix[Collider::Type::WIN][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::WIN][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::WIN][Collider::Type::PLAYER_SHOT] = false;
+	matrix[Collider::Type::WIN][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::WIN][Collider::Type::WIN] = false;
 }
 
 // Destructor
@@ -117,6 +129,16 @@ UpdateResult ModuleCollisions::Update()
 
 	if (App->input->keys[SDL_SCANCODE_F3] == KEY_DOWN) godMode = !godMode;
 
+	///////////// THE R IS PRESSED, GODMODE ON FOR A FEW SECONDS ///////////////////
+	//timer++;
+	/*if (App->input->keys[SDL_SCANCODE_r] == KEY_DOWN || App->input->pads->y == true)
+	{
+		if (timer <= 5)
+		{
+			godMode = !godMode;
+		}
+	}*/
+
 	return UpdateResult::UPDATE_CONTINUE;
 }
 
@@ -156,6 +178,9 @@ void ModuleCollisions::DebugDraw()
 			case Collider::Type::ENEMY_SHOT: // magenta
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 0, 255, 255, alpha });
 				break;
+			case Collider::Type::WIN: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
 			}
 		}
 		else if (godMode == true)
@@ -165,19 +190,22 @@ void ModuleCollisions::DebugDraw()
 			case Collider::Type::NONE: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
-			case Collider::Type::WALL: // blue
+			case Collider::Type::WALL: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
-			case Collider::Type::PLAYER: // green
+			case Collider::Type::PLAYER: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
-			case Collider::Type::ENEMY: // red
+			case Collider::Type::ENEMY: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
-			case Collider::Type::PLAYER_SHOT: // yellow
+			case Collider::Type::PLAYER_SHOT: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
-			case Collider::Type::ENEMY_SHOT: // magenta
+			case Collider::Type::ENEMY_SHOT: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::WIN: // white
 				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
 				break;
 			}

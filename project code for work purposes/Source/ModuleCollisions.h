@@ -53,6 +53,7 @@ private:
 	bool debug = false;
 
 	bool godMode = false;
+	int timer;
 };
 
 #endif // __MODULECOLLISIONS_H__
