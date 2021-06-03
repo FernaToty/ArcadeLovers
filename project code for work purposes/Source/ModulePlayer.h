@@ -40,7 +40,9 @@ public:
 	bool life = false;
 
 	//Player R dodge counter
-	uint R = 4;
+	uint R = 3;
+	int timerR;
+	bool Rpressed = false;
 
 
 public:
@@ -83,7 +85,8 @@ public:
 
 	// Font score index
 	uint score = 000;
-	int Fonts = -1;
+	int DebugFonts = -1;
+	int Font = -1;
 	int scoreFont = -1;
 	int redScoreFont = 2;
 

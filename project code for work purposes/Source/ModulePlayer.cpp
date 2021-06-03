@@ -58,6 +58,7 @@ bool ModulePlayer::Start()
 
 	// L10: DONE 4: Retrieve the player when playing a second time
 	playerlife = 9;
+	R = 3;
 	destroyed = false;
 
 	// L6: DONE 3: Add a collider to the player
@@ -68,7 +69,10 @@ bool ModulePlayer::Start()
 	redScoreFont = App->fonts->Load("Assets/Fonts/redScoreFont.png", lookupTable1, 1);
 
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
-	Fonts = App->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
+	DebugFonts = App->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
+
+	char lookupTable2[] = { "0123456789abcdefghijklmnopqrstuvwxyz" };
+	Font = App->fonts->Load("Assets/Fonts/Fonts.png", lookupTable2, 1);
 
 	return ret;
 }
@@ -148,6 +152,18 @@ UpdateResult ModulePlayer::Update()
 		}
 	}
 	
+	if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || pad.y == true )
+	{
+		//Rpressed = true;
+
+		//if (Rpressed)
+		//{
+		//	timerR--;
+		//	//GodMode = !GodMode;
+		//}
+		R--;
+	}
+
 	if (App->input->keys[SDL_SCANCODE_F3] == KeyState::KEY_DOWN)
 	{
 		GodMode = !GodMode;
@@ -229,6 +245,25 @@ UpdateResult ModulePlayer::PostUpdate()
 
 	sprintf_s(scoreFontText, 10, "%7d", score);
 	App->fonts->BlitText(460, 35, scoreFont, "0");
+	
+	switch (App->player->R)
+	{
+	case 3:
+		App->fonts->BlitText(210, 50, Font, "r");
+		App->fonts->BlitText(225, 50, Font, "r");
+		App->fonts->BlitText(240, 50, Font, "r");
+		break;
+	case 2:
+		App->fonts->BlitText(210, 50, Font, "r");
+		App->fonts->BlitText(225, 50, Font, "r");
+		break;
+	case 1:
+		App->fonts->BlitText(210, 50, Font, "r");
+		break;
+	default:
+		break;
+	}
+	
 
 	if (debugGamepadInfo == true) DebugDrawGamepadInfo();
 	
@@ -239,7 +274,7 @@ UpdateResult ModulePlayer::PostUpdate()
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	// L6: DONE 5: Detect collision with a wall. If so, destroy the player.
-	if ((c1 == collider) && (destroyed == false))
+	if ((c1 == collider) && (c2->type == Collider::Type::ENEMY))
 	{
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y, Collider::Type::NONE, 0);
 		if (GodMode == false) playerlife--;
@@ -253,6 +288,12 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		score += 20;
 	}
+
+	if (c1->type == Collider::Type::PLAYER && c2->type == Collider::Type::WIN)
+	{
+		destroyed = false;
+		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
+	}
 }
 
 void ModulePlayer::DebugDrawGamepadInfo()
@@ -260,7 +301,7 @@ void ModulePlayer::DebugDrawGamepadInfo()
 	GamePad& pad = App->input->pads[0];
 
 	sprintf_s(scoreText, 150, "pad 0 %s, press 1/2/3 for rumble", (pad.enabled) ? "plugged" : "not detected");
-	App->fonts->BlitText(5, 110, Fonts, scoreText);
+	App->fonts->BlitText(5, 110, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "buttons %s %s %s %s %s %s %s %s %s %s %s",
 		(pad.a) ? "a" : "",
@@ -275,7 +316,7 @@ void ModulePlayer::DebugDrawGamepadInfo()
 		(pad.l3) ? "l3" : "",
 		(pad.r3) ? "r3" : ""
 	);
-	App->fonts->BlitText(5, 120, Fonts, scoreText);
+	App->fonts->BlitText(5, 120, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "dpad %s %s %s %s",
 		(pad.up) ? "up" : "",
@@ -283,22 +324,22 @@ void ModulePlayer::DebugDrawGamepadInfo()
 		(pad.left) ? "left" : "",
 		(pad.right) ? "right" : ""
 	);
-	App->fonts->BlitText(5, 130, Fonts, scoreText);
+	App->fonts->BlitText(5, 130, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "left trigger  %0.2f", pad.l2);
-	App->fonts->BlitText(5, 140, Fonts, scoreText);
+	App->fonts->BlitText(5, 140, DebugFonts, scoreText);
 	sprintf_s(scoreText, 150, "right trigger %0.2f", pad.r2);
-	App->fonts->BlitText(5, 150, Fonts, scoreText);
+	App->fonts->BlitText(5, 150, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "left thumb    %.2fx, %0.2fy", pad.left_x, pad.left_y);
-	App->fonts->BlitText(5, 160, Fonts, scoreText);
+	App->fonts->BlitText(5, 160, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "   deadzone   %0.2f", pad.left_dz);
-	App->fonts->BlitText(5, 170, Fonts, scoreText);
+	App->fonts->BlitText(5, 170, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "right thumb   %.2fx, %0.2fy", pad.right_x, pad.right_y);
-	App->fonts->BlitText(5, 180, Fonts, scoreText);
+	App->fonts->BlitText(5, 180, DebugFonts, scoreText);
 
 	sprintf_s(scoreText, 150, "   deadzone   %0.2f", pad.right_dz);
-	App->fonts->BlitText(5, 190, Fonts, scoreText);
+	App->fonts->BlitText(5, 190, DebugFonts, scoreText);
 }
