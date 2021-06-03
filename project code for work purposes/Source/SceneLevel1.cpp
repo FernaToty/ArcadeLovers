@@ -69,6 +69,9 @@ bool SceneLevel1::Start()
 	//App->UI->Enable();
 	
 	//App->collisions->Enable();
+
+	//Finish state
+	App->collisions->AddCollider({ 0, -12000, 500, 600 }, Collider::Type::WIN);
 	
 	return ret;
 }
@@ -109,6 +112,7 @@ UpdateResult SceneLevel1::PostUpdate()
 		break;
 	case 3:
 		App->render->DrawTexture(healthBar7, 20, 570, NULL, false);
+		break;
 	case 2:
 		App->render->DrawTexture(healthBar8, 20, 570, NULL, false);
 		break;
