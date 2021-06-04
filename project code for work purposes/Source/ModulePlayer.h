@@ -47,6 +47,9 @@ public:
 	int timerR;
 	bool Rpressed = false;
 
+	//counter for font typing anim
+	int counter;
+
 
 public:
 	// Position of the player in the map
