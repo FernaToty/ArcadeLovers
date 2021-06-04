@@ -55,6 +55,7 @@ bool SceneIntro::Start()
 	healthBar9 = App->textures->Load("Assets/Sprites/life_bar_9.png");
 
 	App->audio->PlayMusic("Assets/Music/Title.ogg", 1.0f);
+	CoinInserted = App->audio->LoadFx("Assets/Fx/CoinInserted.wav");
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
@@ -73,6 +74,7 @@ UpdateResult SceneIntro::Update()
 	if (App->input->keys[SDL_SCANCODE_C] == KeyState::KEY_DOWN || App->input->pads->r3 == true)
 	{
 		coin ++;
+		App->audio->PlayFx(CoinInserted);
 		if (coin > 9) coin = 9;
 	}
 	if (coin > 0)

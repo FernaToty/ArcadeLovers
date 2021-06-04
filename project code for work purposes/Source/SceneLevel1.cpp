@@ -56,6 +56,9 @@ bool SceneLevel1::Start()
 	Credit8 = App->textures->Load("Assets/Sprites/Credit8.png");
 	Credit9 = App->textures->Load("Assets/Sprites/Credit9.png");
 
+	//coin audio
+	Coin = App->audio->LoadFx("Assets/Fx/CoinInserted.wav");
+
 	//Scene Audio
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
@@ -131,6 +134,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 7:
@@ -143,6 +147,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 6:
@@ -155,6 +160,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 5:
@@ -167,6 +173,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 4:
@@ -179,6 +186,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 3:
@@ -191,6 +199,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 2:
@@ -203,6 +212,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 1:
@@ -215,6 +225,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			break;
 		case 0:
@@ -226,6 +237,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
+				App->audio->PlayFx(Coin);
 			}
 			// if no coins inserted in 30 seconds GAMEOVER
 			if ((counter/60) == 60)

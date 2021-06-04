@@ -57,6 +57,8 @@ public:
 	SDL_Texture* Credit8 = nullptr;
 	SDL_Texture* Credit9 = nullptr;
 
+	uint Coin = 0;
+
 private:
 
 	int counter = 0;

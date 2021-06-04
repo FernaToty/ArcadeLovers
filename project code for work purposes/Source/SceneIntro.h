@@ -57,6 +57,8 @@ public:
 	SDL_Texture* healthBar8 = nullptr;
 	SDL_Texture* healthBar9 = nullptr;
 
+	uint CoinInserted = 0;
+
 private:
 
 	int counter = 0;
