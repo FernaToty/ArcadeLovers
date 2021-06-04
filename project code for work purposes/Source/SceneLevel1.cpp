@@ -63,10 +63,25 @@ bool SceneLevel1::Start()
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
 	// Enemies ---
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -1200);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -1250);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -1300);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -1400);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -800);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -850);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -1200);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -1100);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -1200);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1250);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -1300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -1400);
+
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -1200);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -2300);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -1370);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -2460);
+
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1050);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 340, -3310);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -1260);
+	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 400, -4290);
 
 	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1000);
 	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 320, -1000);
