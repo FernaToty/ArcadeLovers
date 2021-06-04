@@ -128,7 +128,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -140,7 +140,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -152,7 +152,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -164,7 +164,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -176,7 +176,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -188,7 +188,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -200,7 +200,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -212,7 +212,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->sceneIntro->coin -= 1;
 				App->player->playerRevive = true;
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
@@ -223,7 +223,7 @@ UpdateResult SceneLevel1::PostUpdate()
 			{
 				App->render->DrawTexture(InsertCoinRevive, 0, 0, NULL, false);
 			}
-			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->r3 == true)
 			{
 				App->sceneIntro->coin += 1;
 			}
