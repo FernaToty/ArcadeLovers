@@ -57,11 +57,23 @@ public:
 	SDL_Texture* Credit8 = nullptr;
 	SDL_Texture* Credit9 = nullptr;
 
+	SDL_Texture* Ship = nullptr;
+	SDL_Texture* ShipDestroyed = nullptr;
+
 	uint Coin = 0;
 
-private:
+	//fonts for the story typing
+	int Font = -1;
+	char scoreText[150] = { "\0" };
 
+private:
+	bool anim = true;
+
+	int countDown = 0;
 	int counter = 0;
+	int counterFonts;
+	bool counterFontsHide = true;
+	bool ship = true;
 };
 
 #endif  // __SCENELEVEL1_H__

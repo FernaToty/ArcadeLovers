@@ -10,6 +10,8 @@
 #include "SceneIntro.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
+#include "ModulePlayerAnim.h"
+#include "ModuleFonts.h"
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -27,11 +29,21 @@ bool SceneLevel1::Start()
 	LOG("Loading background assets");
 
 	bool ret = true;
+	//reset counter
+	counter = 0;
+	countDown = 0;
+	counterFonts = 0;
+	counterFontsHide = false;
+	ship = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/water.png");
 	cloudTexture = App->textures->Load("Assets/Sprites/clouds.png");
 	UiTexture = App->textures->Load("Assets/Sprites/1943UI.png");
 	InsertCoinRevive = App->textures->Load("Assets/Sprites/InsertCoinRevive.png");
+
+	//look up table for fonts in story typing
+	char lookupTable2[] = { "0123456789abcdefghijklmnopqrstuvwxyz" };
+	Font = App->fonts->Load("Assets/Fonts/Fonts.png", lookupTable2, 1);
 
 	//healtbar
 	healthBar1 = App->textures->Load("Assets/Sprites/life_bar_1.png");
@@ -44,6 +56,9 @@ bool SceneLevel1::Start()
 	healthBar8 = App->textures->Load("Assets/Sprites/life_bar_8.png");
 	healthBar9 = App->textures->Load("Assets/Sprites/life_bar_9.png");
 
+	//Ship sprites
+	Ship = App->textures->Load("Assets/Sprites/Ship.png");
+	ShipDestroyed = App->textures->Load("Assets/Sprites/ShipDestroyed.png");
 
 	//Coins
 	Credit1 = App->textures->Load("Assets/Sprites/Credit1.png");
@@ -62,16 +77,33 @@ bool SceneLevel1::Start()
 	//Scene Audio
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
-	// Enemies ---
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -800);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -850);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -1200);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -1100);
 
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -1200);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1250);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -1300);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -1400);
+	//anim = true;
+	//if (anim == true)
+	//{
+	//	App->playerAnim->Enable();
+
+	//	if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+	//	{
+	//		anim = false;
+	//		App->playerAnim->Disable();
+	//	}
+	//}
+
+	//if (anim == false)
+	//{
+	//	
+	//}
+	// Enemies ---
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -2800);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -2850);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -2200);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -2100);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -2200);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -2250);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -2300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -2400);
 
 	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -1200);
 	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -2300);
@@ -93,19 +125,10 @@ bool SceneLevel1::Start()
 	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 870, 100);
 	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 890, 100);
 
-	//App->enemies->AddEnemy(Enemy_Type::MECH, 900, 195);
-
+	// L10: DONE 2: Enable (and properly disable) the player module
+	
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
-
-	// L10: DONE 2: Enable (and properly disable) the player module
-	App->player->Enable();
-	App->enemies->Enable();
-	App->collisions->Enable();
-	//App->UI->Enable();
-	
-	//App->collisions->Enable();
-
 	//Finish state
 	App->collisions->AddCollider({ 0, -12000, 500, 600 }, Collider::Type::WIN);
 	
@@ -115,6 +138,30 @@ bool SceneLevel1::Start()
 UpdateResult SceneLevel1::Update()
 {
 	App->render->camera.y -= 1 * SCREEN_SIZE;
+	counter++;
+	if (counter/400)
+	{
+		ship = false;
+	}
+	if (counter / 900)
+	{
+		counterFontsHide = true;
+	}
+	if (counter / 1600)
+	{
+		counterFontsHide = false;
+	}
+	if (counter / 1800)
+	{
+		anim = false;
+	}
+	if (anim == false)
+	{
+		App->player->Enable();
+		App->enemies->Enable();
+		App->collisions->Enable();
+	}
+
 
 	return UpdateResult::UPDATE_CONTINUE;
 }
@@ -123,8 +170,165 @@ UpdateResult SceneLevel1::PostUpdate()
 {
 	// Draw everything
 	App->render->DrawTexture(bgTexture, 0, -12350, NULL);
-	App->render->DrawTexture(cloudTexture, 0, -12350, NULL, 0.8f);
-	App->render->DrawTexture(UiTexture, 0, 0, NULL, false);
+	App->render->DrawTexture(bgTexture, 0, -25500, NULL);
+	App->render->DrawTexture(cloudTexture, 0, -14350, NULL, 0.8f);
+
+	if (ship == true)
+	{
+		App->render->DrawTexture(Ship, 0, 0, NULL, 0.1f);
+	}
+	if (ship == false)
+	{
+		App->render->DrawTexture(ShipDestroyed, 0, -60, NULL, 0.3f);
+	}
+
+	if (counterFontsHide == true)
+	{
+		App->fonts->BlitText(150, 150, Font, "mission");
+		App->fonts->BlitText(320, 150, Font, "1");
+		counterFonts++;
+		if ((counterFonts / 60))
+		{
+			App->fonts->BlitText(100, 200, Font, "o");
+		}
+		if ((counterFonts / 70))
+		{
+			App->fonts->BlitText(118, 200, Font, "f");
+		}
+		if ((counterFonts / 80))
+		{
+			App->fonts->BlitText(136, 200, Font, "f");
+		}
+		if ((counterFonts / 90))
+		{
+			App->fonts->BlitText(154, 200, Font, "e");
+		}
+		if ((counterFonts / 100))
+		{
+			App->fonts->BlitText(172, 200, Font, "n");
+		}
+		if ((counterFonts / 110))
+		{
+			App->fonts->BlitText(190, 200, Font, "s");
+		}
+		if ((counterFonts / 120))
+		{
+			App->fonts->BlitText(205, 200, Font, "i");
+		}
+		if ((counterFonts / 130))
+		{
+			App->fonts->BlitText(220, 200, Font, "v");
+		}
+		if ((counterFonts / 140))
+		{
+			App->fonts->BlitText(238, 200, Font, "e");
+		}
+		if ((counterFonts / 150))
+		{
+			App->fonts->BlitText(280, 200, Font, "t");
+		}
+		if ((counterFonts / 160))
+		{
+			App->fonts->BlitText(298, 200, Font, "a");
+		}
+		if ((counterFonts / 170))
+		{
+			App->fonts->BlitText(316, 200, Font, "r");
+		}
+		if ((counterFonts / 180))
+		{
+			App->fonts->BlitText(334, 200, Font, "g");
+		}
+		if ((counterFonts / 190))
+		{
+			App->fonts->BlitText(352, 200, Font, "e");
+		}
+		if ((counterFonts / 200))
+		{
+			App->fonts->BlitText(370, 200, Font, "t");
+		}
+		if (counterFonts / 210)
+		{
+			App->fonts->BlitText(200, 250, Font, "tone");
+		}
+		if ((counterFonts / 230))
+		{
+			App->fonts->BlitText(50, 300, Font, "m");
+		}
+		if ((counterFonts / 240))
+		{
+			App->fonts->BlitText(68, 300, Font, "a");
+		}
+		if ((counterFonts / 250))
+		{
+			App->fonts->BlitText(86, 300, Font, "y");
+		}
+		if ((counterFonts / 260))
+		{
+			App->fonts->BlitText(122, 300, Font, "y");
+		}
+		if ((counterFonts / 270))
+		{
+			App->fonts->BlitText(140, 300, Font, "o");
+		}
+		if ((counterFonts / 280))
+		{
+			App->fonts->BlitText(158, 300, Font, "u");
+		}
+		if ((counterFonts / 290))
+		{
+			App->fonts->BlitText(196, 300, Font, "f");
+		}
+		if ((counterFonts / 300))
+		{
+			App->fonts->BlitText(208, 300, Font, "i");
+		}
+		if ((counterFonts / 310))
+		{
+			App->fonts->BlitText(226, 300, Font, "g");
+		}
+		if ((counterFonts / 320))
+		{
+			App->fonts->BlitText(244, 300, Font, "h");
+		}
+		if ((counterFonts / 330))
+		{
+			App->fonts->BlitText(262, 300, Font, "t");
+		}
+		if ((counterFonts / 340))
+		{
+			App->fonts->BlitText(298, 300, Font, "b");
+		}
+		if ((counterFonts / 350))
+		{
+			App->fonts->BlitText(316, 300, Font, "r");
+		}
+		if ((counterFonts / 360))
+		{
+			App->fonts->BlitText(334, 300, Font, "a");
+		}
+		if ((counterFonts / 370))
+		{
+			App->fonts->BlitText(352, 300, Font, "v");
+		}
+		if (counterFonts / 380)
+		{
+			App->fonts->BlitText(370, 300, Font, "e");
+		}
+		if ((counterFonts / 390))
+		{
+			App->fonts->BlitText(388, 300, Font, "l");
+		}
+		if (counterFonts / 400)
+		{
+			App->fonts->BlitText(406, 300, Font, "y");
+		}
+		if (counterFonts == 700)
+		{
+			counterFonts = 0;
+			counterFontsHide = false;
+		}
+	}
 
 	//If player is dead, insert coin to revive (max 9 coins)
 	if (App->player->playerlife == 0)
@@ -244,8 +448,8 @@ UpdateResult SceneLevel1::PostUpdate()
 			}
 			break;
 		case 0:
-			counter++;
-			if ((counter / 60) % 2 == 0)
+			countDown++;
+			if ((countDown / 60) % 2 == 0)
 			{
 				App->render->DrawTexture(InsertCoinRevive, 0, 0, NULL, false);
 			}
@@ -255,7 +459,7 @@ UpdateResult SceneLevel1::PostUpdate()
 				App->audio->PlayFx(Coin);
 			}
 			// if no coins inserted in 30 seconds GAMEOVER
-			if ((counter/60) == 60)
+			if ((countDown / 60) == 20)
 			{
 				App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 90);
 			}
@@ -265,47 +469,61 @@ UpdateResult SceneLevel1::PostUpdate()
 		}
 	}
 
-	switch (App->player->playerlife)
+	if (anim == false)
 	{
-	case 9:
-		App->render->DrawTexture(healthBar1, 20, 570, NULL, false);
-		break;
-	case 8:
-		App->render->DrawTexture(healthBar2, 20, 570, NULL, false);
-		break;
-	case 7:
-		App->render->DrawTexture(healthBar3, 20, 570, NULL, false);
-		break;
-	case 6:
-		App->render->DrawTexture(healthBar4, 20, 570, NULL, false);
-		break;
-	case 5:
-		App->render->DrawTexture(healthBar5, 20, 570, NULL, false);
-		break;
-	case 4:
-		App->render->DrawTexture(healthBar6, 20, 570, NULL, false);
-		break;
-	case 3:
-		App->render->DrawTexture(healthBar7, 20, 570, NULL, false);
-		break;
-	case 2:
-		App->render->DrawTexture(healthBar8, 20, 570, NULL, false);
-		break;
-	case 1:
-		App->render->DrawTexture(healthBar9, 20, 570, NULL, false);
-		break;
-	default:
-		break;
+		//top UI
+		App->render->DrawTexture(UiTexture, 0, 0, NULL, false);
+		//player lifebar
+		switch (App->player->playerlife)
+		{
+		case 9:
+			App->render->DrawTexture(healthBar1, 20, 570, NULL, false);
+			break;
+		case 8:
+			App->render->DrawTexture(healthBar2, 20, 570, NULL, false);
+			break;
+		case 7:
+			App->render->DrawTexture(healthBar3, 20, 570, NULL, false);
+			break;
+		case 6:
+			App->render->DrawTexture(healthBar4, 20, 570, NULL, false);
+			break;
+		case 5:
+			App->render->DrawTexture(healthBar5, 20, 570, NULL, false);
+			break;
+		case 4:
+			App->render->DrawTexture(healthBar6, 20, 570, NULL, false);
+			break;
+		case 3:
+			App->render->DrawTexture(healthBar7, 20, 570, NULL, false);
+			break;
+		case 2:
+			App->render->DrawTexture(healthBar8, 20, 570, NULL, false);
+			break;
+		case 1:
+			App->render->DrawTexture(healthBar9, 20, 570, NULL, false);
+			break;
+		default:
+			break;
+		}
 	}
+	
 	return UpdateResult::UPDATE_CONTINUE;
 }
 
 bool SceneLevel1::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
+
 	App->player->Disable();
 	App->enemies->Disable();
 	App->collisions->Disable();
+
+	//if (anim == false)
+	//{
+	//	
+	//}
+
 	//App->UI->Disable();
 	// L10: TODO 5: Remove All Memory Leaks - no solution here... ;)
 
