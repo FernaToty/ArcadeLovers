@@ -61,6 +61,8 @@ bool SceneIntro::Start()
 	App->render->camera.y = 0;
 
 	App->playerAnim->Enable();
+	App->player->Disable();
+	App->enemies->Disable();
 
 	coin = 0;
 
