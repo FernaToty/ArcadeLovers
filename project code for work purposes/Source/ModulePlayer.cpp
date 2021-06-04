@@ -54,7 +54,7 @@ bool ModulePlayer::Start()
 	explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
 
 	position.x = 215;
-	position.y = 500;
+	position.y = -1350;
 
 	// L10: DONE 4: Retrieve the player when playing a second time
 	playerlife = 9;
@@ -62,7 +62,7 @@ bool ModulePlayer::Start()
 	destroyed = false;
 
 	//reset the point when playing again
-	
+	score = 0;
 
 	// L6: DONE 3: Add a collider to the player
 	collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
