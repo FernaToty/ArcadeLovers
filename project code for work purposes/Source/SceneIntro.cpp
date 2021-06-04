@@ -35,6 +35,14 @@ bool SceneIntro::Start()
 	InsertCoin = App->textures->Load("Assets/Sprites/InsertCoin.png");
 	Credits = App->textures->Load("Assets/Sprites/Credit0.png");
 	Credit1 = App->textures->Load("Assets/Sprites/Credit1.png");
+	Credit2 = App->textures->Load("Assets/Sprites/Credit2.png");
+	Credit3 = App->textures->Load("Assets/Sprites/Credit3.png");
+	Credit4 = App->textures->Load("Assets/Sprites/Credit4.png");
+	Credit5 = App->textures->Load("Assets/Sprites/Credit5.png");
+	Credit6 = App->textures->Load("Assets/Sprites/Credit6.png");
+	Credit7 = App->textures->Load("Assets/Sprites/Credit7.png");
+	Credit8 = App->textures->Load("Assets/Sprites/Credit8.png");
+	Credit9 = App->textures->Load("Assets/Sprites/Credit9.png");
 
 	healthBar1 = App->textures->Load("Assets/Sprites/life_bar_1.png");
 	healthBar2 = App->textures->Load("Assets/Sprites/life_bar_2.png");
@@ -52,8 +60,8 @@ bool SceneIntro::Start()
 	App->render->camera.y = 0;
 
 	App->playerAnim->Enable();
-	//App->collisions->Enable();
-	coin = !coin;
+
+	coin = 0;
 
 	return ret;
 }
@@ -64,13 +72,16 @@ UpdateResult SceneIntro::Update()
 
 	if (App->input->keys[SDL_SCANCODE_C] == KeyState::KEY_DOWN || App->input->pads->r3 == true)
 	{
-		coin = true;
+		coin ++;
+		if (coin > 9) coin = 9;
 	}
-	if (coin == true)
+	if (coin > 0)
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_DOWN || App->input->pads->start == true)
 		{
+			coin--;
 			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 90);
+			if (coin <= 0) coin = 0;
 		}
 	}
 	return UpdateResult::UPDATE_CONTINUE;
@@ -84,19 +95,51 @@ UpdateResult SceneIntro::PostUpdate()
 	App->render->DrawTexture(menuTexture, 0, 0, NULL, false);
 	
 	counter++;
-	if (coin == true)
+	if (coin > 0)
 	{
-		App->render->DrawTexture(Credit1, 0, 0, NULL, false);
+		switch (coin)
+		{
+		case 9:
+			App->render->DrawTexture(Credit9, 0, 0, NULL, false);
+			break;
+		case 8:
+			App->render->DrawTexture(Credit8, 0, 0, NULL, false);
+			break;
+		case 7:
+			App->render->DrawTexture(Credit7, 0, 0, NULL, false);
+			break;
+		case 6:
+			App->render->DrawTexture(Credit6, 0, 0, NULL, false);
+			break;
+		case 5:
+			App->render->DrawTexture(Credit5, 0, 0, NULL, false);
+			break;
+		case 4:
+			App->render->DrawTexture(Credit4, 0, 0, NULL, false);
+			break;
+		case 3:
+			App->render->DrawTexture(Credit3, 0, 0, NULL, false);
+			break;
+		case 2:
+			App->render->DrawTexture(Credit2, 0, 0, NULL, false);
+			break;
+		case 1:
+			App->render->DrawTexture(Credit1, 0, 0, NULL, false);
+			break;
+		default:
+			break;
+		}
 	}
 	else if ((counter / 60) % 2 == 0)
 	{
 		App->render->DrawTexture(InsertCoin, 0, 0, NULL, false);
 	}
 	
-	if (coin == false)
+	if (coin == 0)
 	{
 		App->render->DrawTexture(Credits, 0, 0, NULL, false);
 	}
+
 	
 	switch (App->player->playerlife)
 	{
@@ -136,7 +179,6 @@ bool SceneIntro::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
 	App->playerAnim->Disable();
-	//App->collisions->Disable();
 
 	return true;
 }

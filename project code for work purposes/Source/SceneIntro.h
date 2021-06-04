@@ -29,7 +29,7 @@ public:
 
 	bool CleanUp();
 
-	bool coin = true;
+	int coin = 0;
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
@@ -38,6 +38,15 @@ public:
 	SDL_Texture* InsertCoin = nullptr;
 	SDL_Texture* Credits = nullptr;
 	SDL_Texture* Credit1 = nullptr;
+	SDL_Texture* Credit2 = nullptr;
+	SDL_Texture* Credit3 = nullptr;
+	SDL_Texture* Credit4 = nullptr;
+	SDL_Texture* Credit5 = nullptr;
+	SDL_Texture* Credit6 = nullptr;
+	SDL_Texture* Credit7 = nullptr;
+	SDL_Texture* Credit8 = nullptr;
+	SDL_Texture* Credit9 = nullptr;
+
 	SDL_Texture* healthBar1 = nullptr;
 	SDL_Texture* healthBar2 = nullptr;
 	SDL_Texture* healthBar3 = nullptr;
