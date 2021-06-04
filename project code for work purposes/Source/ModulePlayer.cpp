@@ -61,6 +61,9 @@ bool ModulePlayer::Start()
 	R = 3;
 	destroyed = false;
 
+	//reset the point when playing again
+	
+
 	// L6: DONE 3: Add a collider to the player
 	collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
 
@@ -74,10 +77,6 @@ bool ModulePlayer::Start()
 	char lookupTable2[] = { "0123456789abcdefghijklmnopqrstuvwxyz" };
 	Font = App->fonts->Load("Assets/Fonts/Fonts.png", lookupTable2, 1);
 
-	if (!destroyed)
-	{
-		collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
-	}
 
 	return ret;
 }
@@ -212,7 +211,7 @@ UpdateResult ModulePlayer::Update()
 		
 
 	// Switch gamepad debug info
-	if (App->input->keys[SDL_SCANCODE_F2] == KEY_DOWN || pad.r3 == true)
+	if (App->input->keys[SDL_SCANCODE_F2] == KEY_DOWN || pad.l3 == true)
 		debugGamepadInfo = !debugGamepadInfo;
 
 	// L6: DONE 4: Update collider position to player position
@@ -239,13 +238,14 @@ UpdateResult ModulePlayer::PostUpdate()
 		destroyed = false;
 		playerlife = 9;
 		playerRevive = !playerRevive;
+		collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
 	}
 
 	////////////////////////////*player DEATH*////////////////////////
 	if (playerlife <= 0)
 	{
 		destroyed = true;
-		App->input->ShakeController(0, 60, 1.0f);
+		//App->input->ShakeController(0, 90, 0.66f);
 		App->collisions->RemoveCollider(collider);
 		// L10: DONE 3: Go back to the intro scene when the player gets killed
 		//App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
