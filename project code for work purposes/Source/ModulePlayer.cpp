@@ -50,7 +50,7 @@ bool ModulePlayer::Start()
 
 	currentAnimation = &idleAnim;
 
-	laserFx = App->audio->LoadFx("Assets/Fx/shoot.wav");
+	laserFx = App->audio->LoadFx("Assets/Fx/Shoot.wav");
 	explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
 
 	position.x = 215;
@@ -73,6 +73,11 @@ bool ModulePlayer::Start()
 
 	char lookupTable2[] = { "0123456789abcdefghijklmnopqrstuvwxyz" };
 	Font = App->fonts->Load("Assets/Fonts/Fonts.png", lookupTable2, 1);
+
+	if (!destroyed)
+	{
+		collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
+	}
 
 	return ret;
 }
@@ -140,28 +145,31 @@ UpdateResult ModulePlayer::Update()
 		}
 	}
 
-	if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_REPEAT || pad.a == true || pad.b == true || pad.r2 == true)
+	if (!destroyed)
 	{
-		if (shotCountdown == 0)
+		if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_REPEAT || pad.a == true || pad.b == true || pad.r2 == true)
 		{
-			Particle* newParticle = App->particles->AddParticle(App->particles->laser, position.x + 9, position.y - 3, Collider::Type::PLAYER_SHOT);
-			newParticle->collider->AddListener(this);
-			App->audio->PlayFx(laserFx);
-			App->input->ShakeController(0, 90, 0.66f);
-			shotCountdown = shotMaxCountdown;
+			if (shotCountdown == 0)
+			{
+				Particle* newParticle = App->particles->AddParticle(App->particles->laser, position.x + 9, position.y - 3, Collider::Type::PLAYER_SHOT);
+				newParticle->collider->AddListener(this);
+				App->audio->PlayFx(laserFx);
+				App->input->ShakeController(0, 90, 0.66f);
+				shotCountdown = shotMaxCountdown;
+			}
 		}
-	}
-	
-	if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || pad.y == true )
-	{
-		//Rpressed = true;
 
-		//if (Rpressed)
-		//{
-		//	timerR--;
-		//	//GodMode = !GodMode;
-		//}
-		R--;
+		if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || pad.y == true)
+		{
+			//Rpressed = true;
+
+			//if (Rpressed)
+			//{
+			//	timerR--;
+			//	//GodMode = !GodMode;
+			//}
+			R--;
+		}
 	}
 
 	if (App->input->keys[SDL_SCANCODE_F3] == KeyState::KEY_DOWN)
@@ -226,14 +234,21 @@ UpdateResult ModulePlayer::PostUpdate()
 		App->render->DrawTexture(texture, position.x, position.y, &rect);
 	}
 
+	if (playerRevive)
+	{
+		destroyed = false;
+		playerlife = 9;
+		playerRevive = !playerRevive;
+	}
+
 	////////////////////////////*player DEATH*////////////////////////
 	if (playerlife <= 0)
 	{
 		destroyed = true;
 		App->input->ShakeController(0, 60, 1.0f);
-	
+		App->collisions->RemoveCollider(collider);
 		// L10: DONE 3: Go back to the intro scene when the player gets killed
-		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
+		//App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
 	}
 	// Draw UI (score) --------------------------------------
 

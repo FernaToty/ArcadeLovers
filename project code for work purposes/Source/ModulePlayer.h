@@ -39,6 +39,9 @@ public:
 	uint playerlife = 9;
 	bool life = false;
 
+	//player revive
+	bool playerRevive = false;
+
 	//Player R dodge counter
 	uint R = 3;
 	int timerR;
