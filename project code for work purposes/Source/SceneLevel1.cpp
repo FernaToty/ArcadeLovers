@@ -7,6 +7,9 @@
 #include "ModuleCollisions.h"
 #include "ModuleEnemies.h"
 #include "ModulePlayer.h"
+#include "SceneIntro.h"
+#include "ModuleInput.h"
+#include "ModuleFadeToBlack.h"
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -28,7 +31,9 @@ bool SceneLevel1::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/water.png");
 	cloudTexture = App->textures->Load("Assets/Sprites/clouds.png");
 	UiTexture = App->textures->Load("Assets/Sprites/1943UI.png");
+	InsertCoinRevive = App->textures->Load("Assets/Sprites/InsertCoinRevive.png");
 
+	//healtbar
 	healthBar1 = App->textures->Load("Assets/Sprites/life_bar_1.png");
 	healthBar2 = App->textures->Load("Assets/Sprites/life_bar_2.png");
 	healthBar3 = App->textures->Load("Assets/Sprites/life_bar_3.png");
@@ -39,6 +44,19 @@ bool SceneLevel1::Start()
 	healthBar8 = App->textures->Load("Assets/Sprites/life_bar_8.png");
 	healthBar9 = App->textures->Load("Assets/Sprites/life_bar_9.png");
 
+
+	//Coins
+	Credit1 = App->textures->Load("Assets/Sprites/Credit1.png");
+	Credit2 = App->textures->Load("Assets/Sprites/Credit2.png");
+	Credit3 = App->textures->Load("Assets/Sprites/Credit3.png");
+	Credit4 = App->textures->Load("Assets/Sprites/Credit4.png");
+	Credit5 = App->textures->Load("Assets/Sprites/Credit5.png");
+	Credit6 = App->textures->Load("Assets/Sprites/Credit6.png");
+	Credit7 = App->textures->Load("Assets/Sprites/Credit7.png");
+	Credit8 = App->textures->Load("Assets/Sprites/Credit8.png");
+	Credit9 = App->textures->Load("Assets/Sprites/Credit9.png");
+
+	//Scene Audio
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
 	// Enemies ---
@@ -89,6 +107,136 @@ UpdateResult SceneLevel1::PostUpdate()
 	App->render->DrawTexture(bgTexture, 0, -12350, NULL);
 	App->render->DrawTexture(cloudTexture, 0, -12350, NULL, 0.8f);
 	App->render->DrawTexture(UiTexture, 0, 0, NULL, false);
+
+	//If player is dead, insert coin to revive (max 9 coins)
+	if (App->player->playerlife == 0)
+	{
+		switch (App->sceneIntro->coin)
+		{
+		case 9:
+			App->render->DrawTexture(Credit9, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			break;
+		case 8:
+			App->render->DrawTexture(Credit8, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 7:
+			App->render->DrawTexture(Credit7, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 6:
+			App->render->DrawTexture(Credit6, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 5:
+			App->render->DrawTexture(Credit5, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 4:
+			App->render->DrawTexture(Credit4, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 3:
+			App->render->DrawTexture(Credit3, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 2:
+			App->render->DrawTexture(Credit2, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 1:
+			App->render->DrawTexture(Credit1, 0, 0, NULL, false);
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin -= 1;
+				App->player->playerRevive = true;
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			break;
+		case 0:
+			counter++;
+			if ((counter / 60) % 2 == 0)
+			{
+				App->render->DrawTexture(InsertCoinRevive, 0, 0, NULL, false);
+			}
+			if (App->input->keys[SDL_SCANCODE_C] == KEY_DOWN || App->input->pads->start == true)
+			{
+				App->sceneIntro->coin += 1;
+			}
+			// if no coins inserted in 30 seconds GAMEOVER
+			if ((counter/60) == 60)
+			{
+				App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 90);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
 	switch (App->player->playerlife)
 	{

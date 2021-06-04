@@ -36,6 +36,7 @@ public:
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* cloudTexture = nullptr;
 	SDL_Texture* UiTexture = nullptr;
+	SDL_Texture* InsertCoinRevive = nullptr;
 	SDL_Texture* healthBar1 = nullptr;
 	SDL_Texture* healthBar2 = nullptr;
 	SDL_Texture* healthBar3 = nullptr;
@@ -45,6 +46,20 @@ public:
 	SDL_Texture* healthBar7 = nullptr;
 	SDL_Texture* healthBar8 = nullptr;
 	SDL_Texture* healthBar9 = nullptr;
+
+	SDL_Texture* Credit1 = nullptr;
+	SDL_Texture* Credit2 = nullptr;
+	SDL_Texture* Credit3 = nullptr;
+	SDL_Texture* Credit4 = nullptr;
+	SDL_Texture* Credit5 = nullptr;
+	SDL_Texture* Credit6 = nullptr;
+	SDL_Texture* Credit7 = nullptr;
+	SDL_Texture* Credit8 = nullptr;
+	SDL_Texture* Credit9 = nullptr;
+
+private:
+
+	int counter = 0;
 };
 
 #endif  // __SCENELEVEL1_H__
