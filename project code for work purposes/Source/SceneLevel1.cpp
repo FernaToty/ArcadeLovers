@@ -12,6 +12,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayerAnim.h"
 #include "ModuleFonts.h"
+#include "ModulePlayerIntro.h"
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -77,56 +78,27 @@ bool SceneLevel1::Start()
 	//Scene Audio
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
-
-	//anim = true;
-	//if (anim == true)
-	//{
-	//	App->playerAnim->Enable();
-
-	//	if (App->input->keys[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->pads->start == true)
-	//	{
-	//		anim = false;
-	//		App->playerAnim->Disable();
-	//	}
-	//}
-
-	//if (anim == false)
-	//{
-	//	
-	//}
 	// Enemies ---
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -2800);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -2850);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -2200);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -2100);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -3000);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -3150);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -3300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -2800);
 
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -2200);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -2250);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -2300);
-	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -2400);
-
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -1200);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -2300);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -1370);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -2460);
-
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1050);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 340, -3310);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -1260);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 400, -4290);
-
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -1000);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 320, -1000);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 340, -1000);
-	//App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -1000);
-
-	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 830, 100);
-	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 850, 100);
-	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 870, 100);
-	//App->enemies->AddEnemy(Enemy_Type::BROWNSHIP, 890, 100);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -3200);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -3250);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -3300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -3400);
 
 	// L10: DONE 2: Enable (and properly disable) the player module
-	
+	//player animation intro
+	App->playerIntro->Enable();
+	App->playerIntro->position.x = 215;
+	App->playerIntro->position.y = 450;
+
+	App->player->Disable();
+	//App->player->position.x = 212;
+	//App->player->position.y = -1613;
+
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 	//Finish state
@@ -151,8 +123,9 @@ UpdateResult SceneLevel1::Update()
 	{
 		counterFontsHide = false;
 	}
-	if (counter / 1800)
+	if (counter / 2000)
 	{
+		App->playerIntro->Disable();
 		anim = false;
 	}
 	if (anim == false)
@@ -161,7 +134,6 @@ UpdateResult SceneLevel1::Update()
 		App->enemies->Enable();
 		App->collisions->Enable();
 	}
-
 
 	return UpdateResult::UPDATE_CONTINUE;
 }
@@ -514,15 +486,12 @@ UpdateResult SceneLevel1::PostUpdate()
 bool SceneLevel1::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
-
-	App->player->Disable();
-	App->enemies->Disable();
-	App->collisions->Disable();
-
-	//if (anim == false)
-	//{
-	//	
-	//}
+	if (anim == false)
+	{
+		App->player->Disable();
+		App->enemies->Disable();
+		App->collisions->Disable();
+	}
 
 	//App->UI->Disable();
 	// L10: TODO 5: Remove All Memory Leaks - no solution here... ;)
