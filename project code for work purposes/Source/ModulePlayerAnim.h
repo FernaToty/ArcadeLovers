@@ -71,12 +71,18 @@ public:
 	Animation leftAnim;
 	Animation dodgeForward;
 	Animation dodgeBack;
+	Animation smallPlane;
+	Animation runWay;
+	Animation flipForward;
+	Animation flipBack;
 
 	// The player's collider
 	Collider* collider = nullptr;
 
 	// A flag to detect when the player has been destroyed
 	bool destroyed = false;
+
+	bool menuAnim = false;
 
 	// Sound effects indices
 	uint laserFx = 0;

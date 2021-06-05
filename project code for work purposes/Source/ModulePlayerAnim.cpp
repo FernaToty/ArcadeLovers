@@ -122,7 +122,7 @@ bool ModulePlayerAnim::Start()
 	currentAnimation = &idleAnim;
 
 	//laserFx = App->audio->LoadFx("Assets/Fx/shoot.wav");
-	explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
+	//explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
 
 	position.x = 215;
 	position.y = 450;
@@ -135,6 +135,8 @@ bool ModulePlayerAnim::Start()
 
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
 	scoreFont = App->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
+
+	menuAnim = false;
 
 	return ret;
 }
@@ -184,11 +186,6 @@ UpdateResult ModulePlayerAnim::PostUpdate()
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		App->render->DrawTexture(texture, position.x, position.y, &rect);
 	}
-
-	// Draw UI (score) --------------------------------------
-	/*sprintf_s(scoreText, 10, "%7d", score);
-	App->fonts->BlitText(58, 248, scoreFont, scoreText);
-	*/
 	return UpdateResult::UPDATE_CONTINUE;
 }
 
@@ -204,16 +201,6 @@ void ModulePlayerAnim::OnCollision(Collider* c1, Collider* c2)
 		App->particles->AddParticle(App->particles->explosion, position.x - 4, position.y - 4, Collider::Type::NONE, 21);
 
 		App->audio->PlayFx(explosionFx);
-
-		// L10: DONE 3: Go back to the intro scene when the player gets killed
-		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
-
-		destroyed = true;
-	}
-
-	if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
-	{
-		score += 23;
 	}
 }
 
