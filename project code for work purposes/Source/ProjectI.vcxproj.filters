@@ -103,6 +103,9 @@
     <ClInclude Include="Enemy_GreenPlane.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="ModulePlayerIntro.h">
+      <Filter>Source Files\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Module.cpp">
@@ -185,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="Enemy_GreenPlane.cpp">
       <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePlayerIntro.cpp">
+      <Filter>Source Files\Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
