@@ -69,12 +69,6 @@ public:
 	Animation downAnim;
 	Animation rightAnim;
 	Animation leftAnim;
-	Animation dodgeForward;
-	Animation dodgeBack;
-	Animation smallPlane;
-	Animation runWay;
-	Animation flipForward;
-	Animation flipBack;
 
 	// The player's collider
 	Collider* collider = nullptr;
