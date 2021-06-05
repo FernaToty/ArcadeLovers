@@ -76,7 +76,7 @@ UpdateResult SceneIntro::Update()
 	if (App->input->keys[SDL_SCANCODE_C] == KeyState::KEY_DOWN || App->input->pads->r3 == true)
 	{
 		coin ++;
-		App->audio->PlayFx(CoinInserted);
+		if (coin < 9) App->audio->PlayFx(CoinInserted);
 		if (coin > 9) coin = 9;
 	}
 	if (coin > 0)
@@ -183,7 +183,6 @@ bool SceneIntro::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
 	App->playerAnim->Disable();
-	App->player->Disable();
-	App->enemies->Disable();
+	App->playerAnim->idleAnim.Reset();
 	return true;
 }
