@@ -113,6 +113,7 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="SceneIntro.h" />
     <ClInclude Include="SceneLevel1.h" />
+    <ClInclude Include="SceneLevel2.h" />
     <ClInclude Include="SceneMembers.h" />
     <ClInclude Include="SceneTutors.h" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClCompile Include="ModulePlayerAnim.cpp" />
     <ClCompile Include="SceneIntro.cpp" />
     <ClCompile Include="SceneLevel1.cpp" />
+    <ClCompile Include="SceneLevel2.cpp" />
     <ClCompile Include="SceneMembers.cpp" />
     <ClCompile Include="SceneTutors.cpp" />
   </ItemGroup>
