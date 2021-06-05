@@ -82,6 +82,7 @@ public:
 	Animation dodgeForward;
 	Animation dodgeBack;
 	Animation flipPlane;
+	Animation descend;
 
 	// The player's collider
 	Collider* collider = nullptr;
@@ -89,10 +90,18 @@ public:
 	// A flag to detect when the player has been destroyed
 	bool destroyed = false;
 	bool GodMode = false;
+	bool DescendAnim = false;
+	bool SceneTrstion = false;
+	bool ChangeScene = false;
+
+	//powerup logics
+	bool powerUp = false;
+	int powerUpTimer;
 
 	// Sound effects indices
 	uint laserFx = 0;
 	uint explosionFx = 0;
+	uint loopFx = 0;
 
 	// Font score index
 	uint score = 000;
@@ -104,6 +113,7 @@ public:
 	char scoreText[150] = { "\0" };
 	char scoreFontText[150] = { "\0" };
 	char redScoreFontText[16] = { "\0" };
+	char PUTimer[150] = { "\0" };
 
 	// Debugdraw for gamepad data
 	bool debugGamepadInfo = false;

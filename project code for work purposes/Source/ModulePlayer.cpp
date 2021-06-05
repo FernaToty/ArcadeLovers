@@ -33,7 +33,6 @@ ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 		rightAnim.loop = false;
 		rightAnim.speed = 0.1f;
 
-
 		// flip Front
 		dodgeForward.PushBack({ 32,  87, 38, 22 });
 		dodgeForward.PushBack({ 75,  87, 43, 21 });
@@ -51,13 +50,16 @@ ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 		dodgeForward.loop = false;
 		dodgeForward.speed = 0.05f;
 
-		//idle sprite
+		//Descend anim
+		descend.PushBack({  33, 144, 36, 20 });
+		descend.PushBack({  83, 145, 27, 14 });
+		descend.PushBack({ 131, 147, 19, 14 });
+		descend.PushBack({ 179, 148, 19, 14 });
+		descend.PushBack({   0,   0,  0,  0 });
+		descend.loop = false;
+		descend.speed = 0.1f;
 	}
 
-	/*if (Rpressed == true)
-	{
-		
-	}*/
 }
 
 ModulePlayer::~ModulePlayer()
@@ -77,6 +79,7 @@ bool ModulePlayer::Start()
 
 	laserFx = App->audio->LoadFx("Assets/Fx/Shoot.wav");
 	explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
+	//loopFx = App->audio->LoadFx("Assets/Fx/R.wav");
 
 	position.x = 212;
 	position.y = -1613;
@@ -88,6 +91,10 @@ bool ModulePlayer::Start()
 	Rpressed = false;
 	timerR = 0;
 	GodMode = false;
+	DescendAnim = false;
+	SceneTrstion = false;
+	powerUp = false;
+
 
 	//reset the point when playing again
 	score = 0;
@@ -186,18 +193,49 @@ UpdateResult ModulePlayer::Update()
 
 	if (!destroyed)
 	{
-		if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_REPEAT || pad.a == true || pad.b == true || pad.r2 == true)
+		if (powerUp == false)
 		{
-			if (shotCountdown == 0)
+			if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_DOWN || pad.a == true || pad.b == true || pad.r2 == true)
 			{
-				Particle* newParticle = App->particles->AddParticle(App->particles->laser, position.x + 9, position.y - 3, Collider::Type::PLAYER_SHOT);
-				newParticle->collider->AddListener(this);
-				App->audio->PlayFx(laserFx);
-				App->input->ShakeController(0, 90, 0.66f);
-				shotCountdown = shotMaxCountdown;
+				if (shotCountdown == 0)
+				{
+					Particle* newParticle = App->particles->AddParticle(App->particles->laser, position.x + 9, position.y - 3, Collider::Type::PLAYER_SHOT);
+					newParticle->collider->AddListener(this);
+					App->audio->PlayFx(laserFx);
+					App->input->ShakeController(0, 90, 0.66f);
+					shotCountdown = shotMaxCountdown;
+				}
 			}
 		}
+		
 
+		/////////////////////////////////////////////             3WAY POWERUP           ///////////////////////////////////
+		if (powerUp == true)
+		{
+			powerUpTimer++;
+			if (powerUpTimer < 3125)
+			{
+				if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_DOWN || pad.a == true || pad.b == true || pad.r2 == true)
+				{
+					if (shotCountdown == 0)
+					{
+						Particle* newParticle = App->particles->AddParticle(App->particles->laser, position.x + 9, position.y - 3, Collider::Type::PLAYER_SHOT);
+						newParticle->collider->AddListener(this);
+						App->particles->AddParticle(App->particles->threeWayL, position.x + 10, position.y + 1, Collider::Type::PLAYER_SHOT);
+						App->particles->AddParticle(App->particles->threeWayR, position.x + 14, position.y + 1, Collider::Type::PLAYER_SHOT);
+
+						App->audio->PlayFx(laserFx);
+						App->input->ShakeController(0, 90, 0.66f);
+						shotCountdown = shotMaxCountdown;
+					}
+				}
+			}
+			if (powerUpTimer > 3125)
+			{
+				powerUp = false;
+				powerUpTimer = 0;
+			}
+		}
 	}
 
 	if (App->input->keys[SDL_SCANCODE_F3] == KeyState::KEY_DOWN)
@@ -221,28 +259,31 @@ UpdateResult ModulePlayer::Update()
 	}
 	
 	// If no left/right movement detected, set the current animation back to idle
-	if (Rpressed == false)
+	if (DescendAnim == false)
 	{
-		timerR = 0;
-		dodgeForward.Reset();
-		if (pad.enabled)
+		if (Rpressed == false)
 		{
-			if (pad.left_x == 0.0f && pad.left_y == 0.0f) currentAnimation = &idleAnim;
+			timerR = 0;
+			dodgeForward.Reset();
+			if (pad.enabled)
+			{
+				if (pad.left_x == 0.0f && pad.left_y == 0.0f) currentAnimation = &idleAnim;
+			}
+			else if (App->input->keys[SDL_SCANCODE_A] == KeyState::KEY_IDLE
+				&& App->input->keys[SDL_SCANCODE_D] == KeyState::KEY_IDLE)
+				currentAnimation = &idleAnim;
 		}
-		else if (App->input->keys[SDL_SCANCODE_A] == KeyState::KEY_IDLE
-			&& App->input->keys[SDL_SCANCODE_D] == KeyState::KEY_IDLE)
-			currentAnimation = &idleAnim;
-	}
-	if (Rpressed == true)
-	{
-		currentAnimation = &dodgeForward;
-		timerR++;
-		if (timerR / 500)
+		if (Rpressed == true)
 		{
-			Rpressed = !Rpressed;
+			currentAnimation = &dodgeForward;
+			//App->audio->PlayFx(loopFx, 0);
+			timerR++;
+			if (timerR / 300)
+			{
+				Rpressed = !Rpressed;
+			}
 		}
 	}
-
 
 	// Switch gamepad debug info
 	if (App->input->keys[SDL_SCANCODE_F2] == KEY_DOWN || pad.l3 == true)
@@ -267,23 +308,46 @@ UpdateResult ModulePlayer::PostUpdate()
 		App->render->DrawTexture(texture, position.x, position.y, &rect);
 	}
 
-	if (playerRevive)
+	////////////////////////////////////      SCENE TRANSITION TO LVL2      /////////////////////////
+	if (App->input->keys[SDL_SCANCODE_F5] == KeyState::KEY_DOWN)
 	{
-		destroyed = false;
-		playerlife = 9;
-		playerRevive = !playerRevive;
-		collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
+		DescendAnim = !DescendAnim;
 	}
+	if (DescendAnim == true)
+	{
+		currentAnimation = &descend;
+		SceneTrstion = true;
+		timerR++;
+		if (timerR / 200)
+		{
+			App->collisions->RemoveCollider(collider);
+		}
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	////////////////////////////*player DEATH*////////////////////////
+	////////////////////////////////////       *player DEATH*         ///////////////////////////////
 	if (playerlife <= 0)
 	{
 		destroyed = true;
 		//App->input->ShakeController(0, 90, 0.66f);
 		App->collisions->RemoveCollider(collider);
 		// L10: DONE 3: Go back to the intro scene when the player gets killed
-		//App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
 	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////             PLAYER REVIVE              ////////////////////////////////
+	if (playerRevive)
+	{
+		destroyed = false;
+		playerlife = 9;
+		playerRevive = !playerRevive;
+		position.x = 212;
+		position.y = -1613;
+		collider = App->collisions->AddCollider({ position.x, position.y, 38, 24 }, Collider::Type::PLAYER, this);
+
+	}
+
+	
 	// Draw UI (score) --------------------------------------
 
 	sprintf_s(scoreFontText, 10, "%7d", score);
@@ -294,6 +358,13 @@ UpdateResult ModulePlayer::PostUpdate()
 
 	sprintf_s(scoreFontText, 10, "%7d", score);
 	App->fonts->BlitText(460, 35, scoreFont, "0");
+
+	if (powerUp == true)
+	{
+		App->fonts->BlitText(20, 590, Font, "3way");
+		sprintf_s(redScoreFontText, 10, "%2d", (25-(powerUpTimer / 120)));
+		App->fonts->BlitText(150, 590, redScoreFont, redScoreFontText);
+	}
 	
 	switch (App->player->R)
 	{
@@ -334,10 +405,19 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				App->audio->PlayFx(explosionFx);
 				playerlife--;
 				destroyed = false;
+				if (playerlife <= 0)
+				{
+					App->particles->AddParticle(App->particles->death, position.x, position.y, Collider::Type::NONE, 0);
+				}
 			}
 		}
 	}
 	
+	if (c1->type == Collider::Type::PLAYER && c2->type == Collider::Type::POWERUP)
+	{
+		powerUp = true;
+	}
+
 	if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
 	{
 		score += 20;
@@ -346,7 +426,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	if (c1->type == Collider::Type::PLAYER && c2->type == Collider::Type::WIN)
 	{
 		destroyed = false;
-		App->fade->FadeToBlack((Module*)App->sceneLevel_1, (Module*)App->sceneIntro, 60);
+		DescendAnim = true;
 	}
 }
 

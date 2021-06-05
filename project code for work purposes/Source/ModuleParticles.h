@@ -58,6 +58,12 @@ public:
 
 	//Template particle for a laser
 	Particle laser;
+	Particle death;
+
+	//3WAY PU
+	Particle threeWayL;
+	Particle threeWayR;
+	Particle threeWayAnim;
 
 private:
 	// Particles spritesheet loaded into an SDL Texture
