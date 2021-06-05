@@ -14,12 +14,13 @@ ModuleWindow::~ModuleWindow()
 
 bool ModuleWindow::Init()
 {
-	LOG("Init SDL window & surface");
+	LOG("Init SDL window and surface");
 	bool ret = true;
-
+	
+	// L2: DONE 2: Init the library and check for possible errors using SDL_GetError()
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG("SDL_VIDEO could not be initialized! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -27,19 +28,15 @@ bool ModuleWindow::Init()
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
 
-		if (WIN_FULLSCREEN == true)
-			flags |= SDL_WINDOW_FULLSCREEN;
+		if (WIN_FULLSCREEN == true) flags |= SDL_WINDOW_FULLSCREEN;
+		if (WIN_BORDERLESS == true)	flags |= SDL_WINDOW_BORDERLESS;
+		if (WIN_RESIZABLE == true) flags |= SDL_WINDOW_RESIZABLE;
+		if (WIN_FULLSCREEN_DESKTOP == true) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-		if (WIN_BORDERLESS == true)
-			flags |= SDL_WINDOW_BORDERLESS;
-
-		if (WIN_RESIZABLE == true)
-			flags |= SDL_WINDOW_RESIZABLE;
-
-		if (WIN_FULLSCREEN_DESKTOP == true)
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-
-		window = SDL_CreateWindow("1943, Battle of Midway (Prototype)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE, flags);
+		// L2: DONE 3: Pick the width and height and experiment with different window flags.
+		// Create the window and check for errors
+		// Expose the SDL_window as a public variable to access it through the different application modules
+		window = SDL_CreateWindow("1943 The Battle Of Midway - ArcadeLovers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE, flags);
 
 		if (window == nullptr)
 		{
@@ -48,6 +45,7 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
+			// L2: DONE 4: Create a screen surface and keep it as a public variable
 			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
@@ -57,18 +55,22 @@ bool ModuleWindow::Init()
 
 bool ModuleWindow::CleanUp()
 {
+	// L2: DONE 5: Fill with code the CleanUp() method
+	// Remove all the data and uninitialize SDL
+
 	LOG("Destroying SDL window and quitting all SDL systems");
 
-	//Destroy window
-	if (window != nullptr)
-		SDL_DestroyWindow(window);
+	// Destroy window
+	if (window != nullptr) SDL_DestroyWindow(window);
 
-	//Quit SDL subsystems
+	// Quit SDL subsystems
 	SDL_Quit();
 
 	return true;
 }
 
-
-
+void ModuleWindow::SetWinTitle(const char* title)
+{
+	SDL_SetWindowTitle(window, title);
+}
 

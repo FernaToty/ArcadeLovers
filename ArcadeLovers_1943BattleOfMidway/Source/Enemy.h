@@ -1,7 +1,7 @@
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
-#include "p2Point.h"
+#include "Point.h"
 #include "Animation.h"
 
 struct SDL_Texture;
@@ -28,6 +28,7 @@ public:
 	virtual void Draw();
 
 	// Collision response
+	// Triggers an animation and a sound fx
 	virtual void OnCollision(Collider* collider);
 
 	// Sets flag for deletion and for the collider aswell

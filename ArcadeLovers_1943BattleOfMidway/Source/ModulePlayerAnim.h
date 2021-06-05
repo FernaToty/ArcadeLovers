@@ -1,5 +1,5 @@
-#ifndef __MODULEPLAYER_H__
-#define __MODULEPLAYER_H__
+#ifndef __MODULEPLAYERANIM_H__
+#define __MODULEPLAYERANIM_H__
 
 #include "Module.h"
 #include "Animation.h"
@@ -9,14 +9,14 @@
 struct SDL_Texture;
 struct Collider;
 
-class ModulePlayer : public Module
+class ModulePlayerAnim : public Module
 {
 public:
 	// Constructor
-	ModulePlayer(bool startEnabled);
+	ModulePlayerAnim(bool startEnabled);
 
 	// Destructor
-	~ModulePlayer();
+	~ModulePlayerAnim();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the player
@@ -30,26 +30,16 @@ public:
 	// Performs the render call of the player sprite
 	UpdateResult PostUpdate() override;
 
+	bool CleanUp();
+
 	// Collision callback, called when the player intersects with another collider
 	void OnCollision(Collider* c1, Collider* c2) override;
 
-	// Draws gamepad debug info in the screen
-	void DebugDrawGamepadInfo();
-
 	//Player life bar
-	uint playerlife = 9;
-	bool life = false;
-
-	//player revive
-	bool playerRevive = false;
+	uint life = 10;
 
 	//Player R dodge counter
-	uint R = 3;
-	int timerR;
-	bool Rpressed = false;
-
-	//counter for font typing anim
-	int counter;
+	uint R = 4;
 
 
 public:
@@ -62,7 +52,7 @@ public:
 	// Countdown to handle shot spacing
 	int shotMaxCountdown = 20;
 	int shotCountdown = 0;
-	
+
 	// The player spritesheet loaded into an SDL_Texture
 	SDL_Texture* texture = nullptr;
 
@@ -79,44 +69,24 @@ public:
 	Animation downAnim;
 	Animation rightAnim;
 	Animation leftAnim;
-	Animation dodgeForward;
-	Animation dodgeBack;
-	Animation flipPlane;
-	Animation descend;
 
 	// The player's collider
 	Collider* collider = nullptr;
 
 	// A flag to detect when the player has been destroyed
 	bool destroyed = false;
-	bool GodMode = false;
-	bool DescendAnim = false;
-	bool SceneTrstion = false;
-	bool ChangeScene = false;
 
-	//powerup logics
-	bool powerUp = false;
-	int powerUpTimer;
+	bool menuAnim = false;
 
 	// Sound effects indices
 	uint laserFx = 0;
 	uint explosionFx = 0;
-	uint loopFx = 0;
 
 	// Font score index
 	uint score = 000;
-	int DebugFonts = -1;
-	int Font = -1;
 	int scoreFont = -1;
-	int redScoreFont = 2;
-
 	char scoreText[150] = { "\0" };
-	char scoreFontText[150] = { "\0" };
-	char redScoreFontText[16] = { "\0" };
-	char PUTimer[150] = { "\0" };
 
-	// Debugdraw for gamepad data
-	bool debugGamepadInfo = false;
 };
 
-#endif // __MODULEPLAYER_H__
+#endif // __MODULEPLAYERANIM_H__

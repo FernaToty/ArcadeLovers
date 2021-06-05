@@ -15,19 +15,19 @@ bool Module::Start()
 	return true;
 }
 
-Update_Status Module::PreUpdate()
+UpdateResult Module::PreUpdate()
 {
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status Module::Update()
+UpdateResult Module::Update()
 {
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status Module::PostUpdate()
+UpdateResult Module::PostUpdate()
 {
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
 bool Module::CleanUp()
@@ -51,6 +51,7 @@ void Module::Enable()
 
 void Module::Disable()
 {
+	// L10: DONE 0: Call CleanUp() when disabling a module
 	if (isEnabled)
 	{
 		isEnabled = false;

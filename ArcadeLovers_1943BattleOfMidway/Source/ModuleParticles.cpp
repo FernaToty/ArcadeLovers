@@ -5,14 +5,12 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleCollisions.h"
-#include "Path.h"
 
 #include "SDL/include/SDL_timer.h"
 
 ModuleParticles::ModuleParticles(bool startEnabled) : Module(startEnabled)
 {
-	for(uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
-		particles[i] = nullptr;
+	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i) particles[i] = nullptr;
 }
 
 ModuleParticles::~ModuleParticles()
@@ -26,7 +24,7 @@ bool ModuleParticles::Start()
 	texture = App->textures->Load("Assets/Sprites/explosion.png");
 
 	// Explosion particle
-	explosion.anim.PushBack({  85, 91, 23, 22 });
+	explosion.anim.PushBack({ 85, 91, 23, 22 });
 	explosion.anim.PushBack({ 116, 88, 35, 31 });
 	explosion.anim.PushBack({ 151, 88, 38, 30 });
 	explosion.anim.PushBack({ 188, 86, 35, 31 });
@@ -37,8 +35,8 @@ bool ModuleParticles::Start()
 	explosion.anim.loop = false;
 	explosion.anim.speed = 0.3f;
 
-	// Death explosion
-	death.anim.PushBack({  60, 311, 36, 30 });
+	//players death
+	death.anim.PushBack({ 60, 311, 36, 30 });
 	death.anim.PushBack({ 102, 310, 44, 33 });
 	death.anim.PushBack({ 152, 313, 47, 35 });
 	death.anim.PushBack({ 201, 312, 45, 39 });
@@ -46,8 +44,8 @@ bool ModuleParticles::Start()
 	death.anim.PushBack({ 296, 308, 50, 45 });
 	death.anim.PushBack({ 352, 306, 44, 45 });
 	death.anim.PushBack({ 404, 305, 48, 48 });
-	death.anim.PushBack({  58, 352, 42, 48 });
-	death.anim.PushBack({  79, 352, 39, 48 });
+	death.anim.PushBack({ 58, 352, 42, 48 });
+	death.anim.PushBack({ 79, 352, 39, 48 });
 	death.anim.PushBack({ 110, 352, 43, 54 });
 	death.anim.PushBack({ 156, 352, 49, 52 });
 	death.anim.PushBack({ 205, 351, 49, 55 });
@@ -59,7 +57,7 @@ bool ModuleParticles::Start()
 	death.speed.y -= 2;
 	death.anim.speed = 0.1f;
 
-	// 3-Way Power-up animation
+	// 3-Way Power-up animation shoot
 	threeWayL.anim.PushBack({ 283, 421, 19, 23 });
 	threeWayL.speed.y -= 5;
 	threeWayL.speed.x -= 2;
@@ -71,29 +69,24 @@ bool ModuleParticles::Start()
 	threeWayR.lifetime = 180;
 
 
-	laser.anim.PushBack({ 305, 421, 21, 24 });
-	//laser.anim.PushBack({ 249, 103, 16, 12 });
+	// 3Way Power-up anim
+	threeWayAnim.anim.PushBack({ 155, 482, 31, 29 });
+	threeWayAnim.anim.PushBack({ 185, 482, 29, 28 });
+	threeWayAnim.anim.PushBack({ 213, 484, 29, 28 });
+	threeWayAnim.anim.PushBack({ 241, 484, 29, 28 });
+	threeWayAnim.anim.loop = true;
+	threeWayAnim.anim.speed = 0.1f;
+
+	//shoot anim
+	laser.anim.PushBack({ 304, 420, 23, 25 });
 	laser.speed.y -= 5;
 	laser.lifetime = 180;
 	laser.anim.speed = 0.2f;
 
-	automatic.anim.PushBack({ 159, 283, 23, 23 });
-	automatic.speed.y -= 5;
-	automatic.lifetime = 300;
-	automatic.anim.speed = 0.2f;
-
-	// 3Way Power-up anim
-	threeWay.anim.PushBack({ 155, 482, 31, 29 });
-	threeWay.anim.PushBack({ 185, 482, 29, 28 });
-	threeWay.anim.PushBack({ 213, 484, 29, 28 });
-	threeWay.anim.PushBack({ 241, 484, 29, 28 });
-	threeWay.anim.loop = true;
-	threeWay.anim.speed = 0.1f;
-
 	return true;
 }
 
-Update_Status ModuleParticles::PreUpdate()
+UpdateResult ModuleParticles::PreUpdate()
 {
 	// Remove all particles scheduled for deletion
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
@@ -105,7 +98,7 @@ Update_Status ModuleParticles::PreUpdate()
 		}
 	}
 
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
 bool ModuleParticles::CleanUp()
@@ -136,11 +129,10 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 			particles[i]->collider->pendingToDelete = true;
 			break;
 		}
-			
 	}
 }
 
-Update_Status ModuleParticles::Update()
+UpdateResult ModuleParticles::Update()
 {
 	for(uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -155,23 +147,23 @@ Update_Status ModuleParticles::Update()
 		}
 	}
 
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status ModuleParticles::PostUpdate()
+UpdateResult ModuleParticles::PostUpdate()
 {
-	//Iterating all particle array and drawing any active particles
+	// Iterating all particle array and drawing any active particles
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		Particle* particle = particles[i];
 
 		if (particle != nullptr && particle->isAlive)
 		{
-			App->render->Blit(texture, particle->position.x, particle->position.y, &(particle->anim.GetCurrentFrame()));
+			App->render->DrawTexture(texture, particle->position.x, particle->position.y, &(particle->anim.GetCurrentFrame()));
 		}
 	}
 
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
 Particle* ModuleParticles::AddParticle(const Particle& particle, int x, int y, Collider::Type colliderType, uint delay)
@@ -180,7 +172,7 @@ Particle* ModuleParticles::AddParticle(const Particle& particle, int x, int y, C
 
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
-		//Finding an empty slot for a new particle
+		// Finding an empty slot for a new particle
 		if (particles[i] == nullptr)
 		{
 			newParticle = new Particle(particle);
@@ -188,7 +180,7 @@ Particle* ModuleParticles::AddParticle(const Particle& particle, int x, int y, C
 			newParticle->position.x = x;						// so when frameCount reaches 0 the particle will be activated
 			newParticle->position.y = y;
 
-			//Adding the particle's collider
+			// Adding the particle's collider
 			if (colliderType != Collider::Type::NONE)
 				newParticle->collider = App->collisions->AddCollider(newParticle->anim.GetCurrentFrame(), colliderType, this);
 

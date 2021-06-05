@@ -2,7 +2,7 @@
 #define __PARTICLE_H__
 
 #include "Animation.h"
-#include "p2Point.h"
+#include "Point.h"
 
 struct Collider;
 

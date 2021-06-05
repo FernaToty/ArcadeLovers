@@ -3,7 +3,7 @@
 
 #include "SDL/include/SDL_Rect.h"
 
-#define MAX_LISTENERS 5
+#define MAX_LISTENERS 6
 
 class Module;
 
@@ -16,14 +16,14 @@ struct Collider
 		PLAYER,
 		ENEMY,
 		PLAYER_SHOT,
-		POWERUP,
 		ENEMY_SHOT,
+		POWERUP,
 		WIN,
 
 		MAX
 	};
 
-	//Methods
+	// Methods
 	Collider(SDL_Rect rectangle, Type type, Module* listener = nullptr);
 
 	void SetPos(int x, int y);
@@ -32,7 +32,7 @@ struct Collider
 
 	void AddListener(Module* listener);
 
-	//Variables
+	// Variables
 	SDL_Rect rect;
 	bool pendingToDelete = false;
 	Type type;

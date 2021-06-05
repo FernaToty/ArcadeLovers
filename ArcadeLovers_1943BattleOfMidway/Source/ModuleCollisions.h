@@ -1,7 +1,7 @@
-#ifndef __MODULE_COLLISIONS_H__
-#define __MODULE_COLLISIONS_H__
+#ifndef __MODULECOLLISIONS_H__
+#define __MODULECOLLISIONS_H__
 
-#define MAX_COLLIDERS 50
+#define MAX_COLLIDERS 100
 
 #include "Module.h"
 #include "Collider.h"
@@ -19,15 +19,15 @@ public:
 	// Called at the beginning of the application loop
 	// Removes all colliders pending to delete
 	// Checks for new collisions and calls its listeners
-	Update_Status PreUpdate();
+	UpdateResult PreUpdate();
 
 	// Called at the middle of the application loop
 	// Switches the debug mode on/off
-	Update_Status Update();
+	UpdateResult Update();
 
 	// Called at the end of the application loop
 	// Draw all colliders (if debug mode is enabled)
-	Update_Status PostUpdate();
+	UpdateResult PostUpdate();
 
 	// Removes all existing colliders
 	bool CleanUp();
@@ -51,6 +51,12 @@ private:
 
 	// Simple debugging flag to draw all colliders
 	bool debug = false;
+
+	uint r = 3;
+	bool rpressed = false;
+	bool godMode = false;
+	bool GodModeF3 = false;
+	int timer;
 };
 
-#endif // __MODULE_COLLISIONS_H__
+#endif // __MODULECOLLISIONS_H__

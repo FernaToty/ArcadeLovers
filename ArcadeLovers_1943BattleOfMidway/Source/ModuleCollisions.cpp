@@ -4,6 +4,8 @@
 
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+
 #include "SDL/include/SDL_Scancode.h"
 
 ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
@@ -16,6 +18,7 @@ ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
 	matrix[Collider::Type::WALL][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::WALL][Collider::Type::PLAYER_SHOT] = true;
 	matrix[Collider::Type::WALL][Collider::Type::ENEMY_SHOT] = true;
+	matrix[Collider::Type::WALL][Collider::Type::WIN] = false;
 	matrix[Collider::Type::WALL][Collider::Type::POWERUP] = false;
 
 	matrix[Collider::Type::PLAYER][Collider::Type::WALL] = true;
@@ -23,6 +26,7 @@ ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
 	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = true;
+	matrix[Collider::Type::PLAYER][Collider::Type::WIN] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::POWERUP] = true;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::WALL] = true;
@@ -30,6 +34,7 @@ ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER_SHOT] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::WIN] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::POWERUP] = false;
 
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::WALL] = true;
@@ -37,21 +42,33 @@ ModuleCollisions::ModuleCollisions(bool startEnabled) : Module(startEnabled)
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::ENEMY] = true;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::ENEMY_SHOT] = false;
-	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::POWERUP] = true;
+	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::WIN] = false;
+	matrix[Collider::Type::PLAYER_SHOT][Collider::Type::POWERUP] = false;
 
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::WALL] = true;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::WIN] = false;
 	matrix[Collider::Type::ENEMY_SHOT][Collider::Type::POWERUP] = false;
+
+	matrix[Collider::Type::WIN][Collider::Type::WALL] = false;
+	matrix[Collider::Type::WIN][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::WIN][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::WIN][Collider::Type::PLAYER_SHOT] = false;
+	matrix[Collider::Type::WIN][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::WIN][Collider::Type::WIN] = false;
+	matrix[Collider::Type::WIN][Collider::Type::POWERUP] = false;
 
 	matrix[Collider::Type::POWERUP][Collider::Type::WALL] = false;
 	matrix[Collider::Type::POWERUP][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::POWERUP][Collider::Type::ENEMY] = false;
-	matrix[Collider::Type::POWERUP][Collider::Type::PLAYER_SHOT] = true;
+	matrix[Collider::Type::POWERUP][Collider::Type::PLAYER_SHOT] = false;
 	matrix[Collider::Type::POWERUP][Collider::Type::ENEMY_SHOT] = false;
+	matrix[Collider::Type::POWERUP][Collider::Type::WIN] = false;
 	matrix[Collider::Type::POWERUP][Collider::Type::POWERUP] = false;
+
 }
 
 // Destructor
@@ -60,7 +77,7 @@ ModuleCollisions::~ModuleCollisions()
 
 }
 
-Update_Status ModuleCollisions::PreUpdate()
+UpdateResult ModuleCollisions::PreUpdate()
 {
 	// Remove all colliders scheduled for deletion
 	for(uint i = 0; i < MAX_COLLIDERS; ++i)
@@ -75,51 +92,115 @@ Update_Status ModuleCollisions::PreUpdate()
 	Collider* c1;
 	Collider* c2;
 
-	for(uint i = 0; i < MAX_COLLIDERS; ++i)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
-		// skip empty colliders
-		if(colliders[i] == nullptr)
-			continue;
+		// Remove all colliders scheduled for deletion
+		for (uint i = 0; i < MAX_COLLIDERS; ++i)
+		{
+			if (colliders[i] != nullptr && colliders[i]->pendingToDelete == true)
+			{
+				delete colliders[i];
+				colliders[i] = nullptr;
+			}
+		}
 
-		c1 = colliders[i];
+		Collider* c1;
+		Collider* c2;
 
-		// avoid checking collisions already checked
-		for(uint k = i+1; k < MAX_COLLIDERS; ++k)
+		for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		{
 			// skip empty colliders
-			if(colliders[k] == nullptr)
+			if (colliders[i] == nullptr)
 				continue;
 
-			c2 = colliders[k];
+			c1 = colliders[i];
 
-			if(matrix[c1->type][c2->type] && c1->Intersects(c2->rect))
+			// avoid checking collisions already checked
+			for (uint k = i + 1; k < MAX_COLLIDERS; ++k)
 			{
-				for (uint i = 0; i < MAX_LISTENERS; ++i)
-					if (c1->listeners[i] != nullptr) c1->listeners[i]->OnCollision(c1, c2);
-				
-				for (uint i = 0; i < MAX_LISTENERS; ++i)
-					if (c2->listeners[i] != nullptr) c2->listeners[i]->OnCollision(c2, c1);
+				// skip empty colliders
+				if (colliders[k] == nullptr)
+					continue;
+
+				c2 = colliders[k];
+
+				if (matrix[c1->type][c2->type] && c1->Intersects(c2->rect))
+				{
+					for (uint i = 0; i < MAX_LISTENERS; ++i)
+						if (c1->listeners[i] != nullptr) c1->listeners[i]->OnCollision(c1, c2);
+
+					for (uint i = 0; i < MAX_LISTENERS; ++i)
+						if (c2->listeners[i] != nullptr) c2->listeners[i]->OnCollision(c2, c1);
+				}
+			}
+		}
+	
+	}
+	return UpdateResult::UPDATE_CONTINUE;
+}
+
+UpdateResult ModuleCollisions::Update()
+{
+	if (App->input->keys[SDL_SCANCODE_F1] == KEY_DOWN) debug = !debug;
+
+	if (App->input->keys[SDL_SCANCODE_F3] == KEY_DOWN) GodModeF3 = !GodModeF3;
+
+	//R dodge logic
+	if (r != 0)
+	{
+		if (rpressed == false)
+		{
+			if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || App->input->pads->y == true)
+			{
+				rpressed = !rpressed;
+				r--;
 			}
 		}
 	}
 
-	return Update_Status::UPDATE_CONTINUE;
+	if (rpressed == false)
+	{
+		timer = 0;
+		if (GodModeF3 == false)
+		{
+			godMode = false;
+		}
+		if (GodModeF3 == true)
+		{
+			godMode = true;
+		}
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = true;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = true;
+		matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
+		matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = true;
+		matrix[Collider::Type::PLAYER][Collider::Type::POWERUP] = true;
+		matrix[Collider::Type::POWERUP][Collider::Type::PLAYER] = true;
+	}
+	if (rpressed == true)
+	{
+		timer++;
+		godMode = true;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = false;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = false;
+		matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = false;
+		matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = false;
+		matrix[Collider::Type::PLAYER][Collider::Type::POWERUP] = false;
+		matrix[Collider::Type::POWERUP][Collider::Type::PLAYER] = false;
+		if (timer / 400)
+		{
+			rpressed = !rpressed;
+		}
+	}
+	
+
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status ModuleCollisions::Update()
+UpdateResult ModuleCollisions::PostUpdate()
 {
-	if (App->input->keys[SDL_SCANCODE_F1] == KEY_DOWN)
-		debug = !debug;
+	if (debug) DebugDraw();
 
-	return Update_Status::UPDATE_CONTINUE;
-}
-
-Update_Status ModuleCollisions::PostUpdate()
-{
-	if (debug)
-		DebugDraw();
-
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
 void ModuleCollisions::DebugDraw()
@@ -129,34 +210,67 @@ void ModuleCollisions::DebugDraw()
 	{
 		if(colliders[i] == nullptr)
 			continue;
-		
-		switch(colliders[i]->type)
+		if (godMode == false)
 		{
+			switch (colliders[i]->type)
+			{
 			case Collider::Type::NONE: // white
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
-			break;
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
 			case Collider::Type::WALL: // blue
-			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
-			break;
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 0, 0, 255, alpha });
+				break;
 			case Collider::Type::PLAYER: // green
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
-			break;
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 0, 255, 0, alpha });
+				break;
 			case Collider::Type::ENEMY: // red
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
-			break;
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+				break;
 			case Collider::Type::PLAYER_SHOT: // yellow
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
-			break;
-			case Collider::Type::ENEMY_SHOT: // cian
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
-			break;
-			case Collider::Type::POWERUP: // magenta
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
-			break;
-			case Collider::Type::WIN:
-			App->render->DrawQuad(colliders[i]->rect, 255, 135, 0, alpha);
-			break;
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 0, alpha });
+				break;
+			case Collider::Type::ENEMY_SHOT: // magenta
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 0, 255, 255, alpha });
+				break;
+			case Collider::Type::WIN: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::POWERUP: // purple
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 255, alpha });
+				break;
+			}
 		}
+		else if (godMode == true)
+		{
+			switch (colliders[i]->type)
+			{
+			case Collider::Type::NONE: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::WALL: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::PLAYER: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::ENEMY: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::PLAYER_SHOT: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::ENEMY_SHOT: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::WIN: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			case Collider::Type::POWERUP: // white
+				App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 255, 255, alpha });
+				break;
+			}
+		}
+		
 	}
 }
 

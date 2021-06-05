@@ -4,12 +4,12 @@
 
 #include "SDL/include/SDL.h"
 #include "SDL_mixer/include/SDL_mixer.h"
-#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
+
+//#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
 ModuleAudio::ModuleAudio(bool startEnabled) : Module(startEnabled)
 {
-	for(uint i = 0; i < MAX_FX; ++i)
-		soundFx[i] = nullptr;
+	for(uint i = 0; i < MAX_FX; ++i) soundFx[i] = nullptr;
 }
 
 ModuleAudio::~ModuleAudio()
@@ -22,14 +22,14 @@ bool ModuleAudio::Init()
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 
-	//Initialize audio subsystem
+	// Initialize audio subsystem
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
 		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
-	//Load support for OGG format
+	// Load support for OGG format
 	int flags = MIX_INIT_OGG;
 	int init = Mix_Init(flags);
 
@@ -39,7 +39,7 @@ bool ModuleAudio::Init()
 		ret = false;
 	}
 
-	//Initialize SDL_mixer
+	// Initialize SDL_mixer
 	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
@@ -61,8 +61,7 @@ bool ModuleAudio::CleanUp()
 
 	for (uint i = 0; i < MAX_FX; ++i)
 	{
-		if(soundFx[i] != nullptr)
-			Mix_FreeChunk(soundFx[i]);
+		if (soundFx[i] != nullptr) Mix_FreeChunk(soundFx[i]);
 	}
 	
 	Mix_CloseAudio();
@@ -80,7 +79,7 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 	{
 		if(fade_time > 0.0f)
 		{
-			// Warning: This call blocks the execution until fade out is done
+			// WARNING: This call blocks the execution until fade out is done
 			Mix_FadeOutMusic((int) (fade_time * 1000.0f));
 		}
 		else
@@ -93,7 +92,7 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 
 	music = Mix_LoadMUS(path);
 
-	if(music == NULL)
+	if (music == NULL)
 	{
 		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;

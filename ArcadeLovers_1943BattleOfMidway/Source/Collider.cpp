@@ -13,6 +13,8 @@ void Collider::SetPos(int x, int y)
 
 bool Collider::Intersects(const SDL_Rect& r) const
 {
+	// L6: DONE 1: Check if there is an overlap
+	// between argument "r" and property "rect"
 	return (rect.x < r.x + r.w &&
 			rect.x + rect.w > r.x &&
 			rect.y < r.y + r.h &&
@@ -29,8 +31,7 @@ void Collider::AddListener(Module* listener)
 			break;
 		}
 
-		//Simple security check to avoid adding the same listener twice
-		else if (listeners[i] == listener)
-			break;
+		// Simple security check to avoid adding the same listener twice
+		else if (listeners[i] == listener) break;
 	}
 }

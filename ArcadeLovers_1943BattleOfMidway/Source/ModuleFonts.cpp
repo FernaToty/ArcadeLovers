@@ -51,7 +51,7 @@ int ModuleFonts::Load(const char* texture_path, const char* characters, uint row
 	font.texture = tex;
 	font.rows = rows;
 
-	// TODO 1: Finish storing font data
+	// L9: DONE 1: Finish storing font data
 
 	// totalLength ---	length of the lookup table
 	// table ---------  All characters displayed in the same order as the texture
@@ -100,7 +100,7 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 
 	for(uint i = 0; i < len; ++i)
 	{
-		// TODO 2: Find the character in the table and its position in the texture, then Blit
+		// L9: DONE 2: Find the character in the table and its position in the texture, then Blit
 		uint charIndex = 0;
 
 		// Find the location of the current character in the lookup table
@@ -117,7 +117,7 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 		spriteRect.x = spriteRect.w * (charIndex % font->columns);
 		spriteRect.y = spriteRect.h * (charIndex / font->columns);
 
-		App->render->Blit(font->texture, x, y, &spriteRect, 0.0f, false);
+		App->render->DrawTexture(font->texture, x, y, &spriteRect, 0.0f, false);
 
 		// Advance the position where we blit the next character
 		x += spriteRect.w;

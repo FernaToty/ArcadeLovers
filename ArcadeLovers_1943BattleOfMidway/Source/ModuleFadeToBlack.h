@@ -2,15 +2,16 @@
 #define __MODULEFADETOBLACK_H__
 
 #include "Module.h"
+
 #include "SDL\include\SDL_rect.h"
 
 class ModuleFadeToBlack : public Module
 {
 public:
-	//Constructor
+	// Constructor
 	ModuleFadeToBlack(bool startEnabled);
 
-	//Destructor
+	// Destructor
 	~ModuleFadeToBlack();
 
 	// Called when the module is activated
@@ -19,11 +20,11 @@ public:
 
 	// Called at the middle of the application loop
 	// Updates the fade logic
-	Update_Status Update() override;
+	UpdateResult Update() override;
 
 	// Called at the end of the application loop
 	// Performs the render call of a black rectangle with transparency
-	Update_Status PostUpdate() override;
+	UpdateResult PostUpdate() override;
 
 	// Called from another module
 	// Starts the fade process which has two steps, fade_out and fade_in

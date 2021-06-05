@@ -1,12 +1,11 @@
-#ifndef __MODULE_PARTICLES_H__
-#define __MODULE_PARTICLES_H__
+#ifndef __MODULEPARTICLES_H__
+#define __MODULEPARTICLES_H__
 
 #include "Module.h"
 
 #include "Globals.h"
 #include "Particle.h"
 #include "Collider.h"
-#include "Path.h"
 
 #define MAX_ACTIVE_PARTICLES 100
 
@@ -29,16 +28,16 @@ public:
 
 	// Called at the beginning of the application loop
 	// Removes all particles pending to delete
-	Update_Status PreUpdate() override;
+	UpdateResult PreUpdate() override;
 
 	// Called at the middle of the application loop
 	// Iterates all the particles and calls its Update()
 	// Removes any "dead" particles
-	Update_Status Update() override;
+	UpdateResult Update() override;
 
 	// Called at the end of the application loop
 	// Iterates all the particles and draws them
-	Update_Status PostUpdate() override;
+	UpdateResult PostUpdate() override;
 
 	// Called on application exit
 	// Destroys all active particles left in the array
@@ -57,19 +56,14 @@ public:
 	//Template particle for an explosion
 	Particle explosion;
 
-	//Template particle for an explosion of players death
-	Particle death;
-
 	//Template particle for a laser
 	Particle laser;
+	Particle death;
 
-	//Template particle for a automatic shoot
-	Particle automatic;
-
-	//Template particle for 3-way powerup
+	//3WAY PU
 	Particle threeWayL;
 	Particle threeWayR;
-	Particle threeWay;
+	Particle threeWayAnim;
 
 private:
 	// Particles spritesheet loaded into an SDL Texture
@@ -77,7 +71,6 @@ private:
 
 	// An array to store and handle all the particles
 	Particle* particles[MAX_ACTIVE_PARTICLES] = { nullptr };
-
 };
 
-#endif // !__MODULEPARTICLES_H__
+#endif // __MODULEPARTICLES_H__

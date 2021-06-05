@@ -1,5 +1,5 @@
-#ifndef __MODULE_AUDIO_H__
-#define __MODULE_AUDIO_H__
+#ifndef __MODULEAUDIO_H__
+#define __MODULEAUDIO_H__
 
 #include "Module.h"
 
@@ -52,4 +52,4 @@ private:
 	Mix_Chunk* soundFx[MAX_FX] = { nullptr };
 };
 
-#endif // __MODULE_AUDIO_H__
+#endif // __MODULEAUDIO_H__

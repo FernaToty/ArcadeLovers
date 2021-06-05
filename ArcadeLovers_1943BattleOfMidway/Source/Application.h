@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 17
+#define NUM_MODULES 18
 
 class Module;
 class ModuleWindow;
@@ -11,42 +11,42 @@ class ModuleInput;
 class ModuleTextures;
 class ModuleAudio;
 class ModulePlayer;
+class ModulePlayerAnim;
+class SceneTutors;
+class SceneMembers;
 class SceneIntro;
-class SceneMenu;
 class SceneLevel1;
-class SceneWin;
+class SceneLevel2;
 class ModuleParticles;
 class ModuleCollisions;
 class ModuleEnemies;
-//class ModulePowerUp;
 class ModuleFadeToBlack;
 class ModuleFonts;
 class ModuleRender;
-class TeamMembers;
-class ProjectTutors;
+class ModulePlayerIntro;
 
 class Application
 {
-
 public:
 
-	//Constructor. Creates all necessary modules for the application
+	// Constructor. Creates all necessary modules for the application
 	Application();
 
-	//Destructor. Removes all module objects
+	// Destructor. Removes all module objects
 	~Application();
 
-	//Initializes all modules
+	// Initializes all modules
 	bool Init();
 
-	//Updates all modules (PreUpdate, Update and PostUpdate)
-	Update_Status Update();
+	// Updates all modules (PreUpdate, Update and PostUpdate)
+	UpdateResult Update();
 
-	//Releases all the application data
+	// Releases all the application data
 	bool CleanUp();
 
 public:
-	// An array to store all modules
+
+	// Array to store the pointers for the different modules
 	Module* modules[NUM_MODULES];
 
 	// All the modules stored individually
@@ -56,17 +56,17 @@ public:
 	ModuleAudio* audio = nullptr;
 
 	ModulePlayer* player = nullptr;
+	ModulePlayerAnim* playerAnim = nullptr;
+	ModulePlayerIntro* playerIntro = nullptr;
 
-	TeamMembers* teamMembers = nullptr;
-	ProjectTutors* projectTutors = nullptr;
+	SceneTutors* sceneTutors = nullptr;
+	SceneMembers* sceneMembers = nullptr;
 	SceneIntro* sceneIntro = nullptr;
-	SceneMenu* sceneMenu = nullptr;
 	SceneLevel1* sceneLevel_1 = nullptr;
-	SceneWin* sceneWin = nullptr;
-
+	SceneLevel2* sceneLevel_2 = nullptr;
+	
 	ModuleEnemies* enemies = nullptr;
 	ModuleParticles* particles = nullptr;
-	//ModulePowerUp* powerUp = nullptr;
 
 	ModuleCollisions* collisions = nullptr;
 	ModuleFadeToBlack* fade = nullptr;

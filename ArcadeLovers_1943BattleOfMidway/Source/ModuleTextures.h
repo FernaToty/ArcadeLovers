@@ -1,5 +1,5 @@
-#ifndef __MODULE_TEXTURES_H__
-#define __MODULE_TEXTURES_H__
+#ifndef __MODULETEXTURES_H__
+#define __MODULETEXTURES_H__
 
 #include "Module.h"
 
@@ -10,10 +10,10 @@ struct SDL_Texture;
 class ModuleTextures : public Module
 {
 public:
-	//Constructor
+	// Constructor
 	ModuleTextures(bool startEnabled);
 
-	//Destructor
+	// Destructor
 	~ModuleTextures();
 
 	// Called on application start.
@@ -42,4 +42,4 @@ public:
 	SDL_Texture* textures[MAX_TEXTURES] = { nullptr };
 };
 
-#endif // __ModuleTextures_H__
+#endif // __MODULETEXTURES_H__

@@ -1,7 +1,8 @@
-#ifndef __MODULE_FONTS_H__
-#define __MODULE_FONTS_H__
+#ifndef __MODULEFONTS_H__
+#define __MODULEFONTS_H__
 
 #include "Module.h"
+
 #include "SDL\include\SDL_pixels.h"
 
 #define MAX_FONTS 10
@@ -53,4 +54,4 @@ private:
 };
 
 
-#endif // __ModuleFonts_H__
+#endif // __MODULEFONTS_H__

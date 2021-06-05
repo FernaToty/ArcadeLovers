@@ -5,7 +5,8 @@
 
 #include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
-#pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
+
+//#pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
 ModuleTextures::ModuleTextures(bool startEnabled) : Module(startEnabled)
 {
@@ -39,7 +40,7 @@ bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
 
-	//Free all textures sill existing in the textures array
+	// Free all textures sill existing in the textures array
 	for (uint i = 0; i < MAX_TEXTURES; ++i)
 	{
 		if (textures[i] != nullptr)
@@ -49,7 +50,7 @@ bool ModuleTextures::CleanUp()
 		}
 	}
 
-	//Quit SDL_Image subsystems
+	// Quit SDL_Image subsystems
 	IMG_Quit();
 	return true;
 }

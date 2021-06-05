@@ -7,6 +7,7 @@
 #include "ModuleInput.h"
 
 #include "SDL/include/SDL_render.h"
+#include "SDL/include/SDL_scancode.h"
 
 ModuleRender::ModuleRender(bool startEnabled) : Module(startEnabled)
 {
@@ -24,10 +25,7 @@ bool ModuleRender::Init()
 	bool ret = true;	
 	Uint32 flags = 0;
 
-	if (VSYNC == true)
-	{
-		flags |= SDL_RENDERER_PRESENTVSYNC;
-	}
+	if (VSYNC == true) flags |= SDL_RENDERER_PRESENTVSYNC;
 
 	renderer = SDL_CreateRenderer(App->window->window, -1, flags);
 
@@ -37,63 +35,61 @@ bool ModuleRender::Init()
 		ret = false;
 	}
 
+	// L10: DONE: Set render logical size
+	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	return ret;
 }
 
 // Called every draw update
-Update_Status ModuleRender::PreUpdate()
+UpdateResult ModuleRender::PreUpdate()
 {
-	//Set the color used for drawing operations
+	// Set the color used for drawing operations
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-	//Clear rendering target
+	// Clear rendering target
 	SDL_RenderClear(renderer);
 
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status ModuleRender::Update()
+UpdateResult ModuleRender::Update()
 {
-	//Handle positive vertical movement
-	if (App->input->keys[SDL_SCANCODE_UP] == KEY_REPEAT)
-		camera.y -= cameraSpeed;
+	// Handle positive vertical movement
+	if (App->input->keys[SDL_SCANCODE_UP] == KEY_REPEAT) camera.y -= cameraSpeed;
 
-	//Handle negative vertical movement
-	if (App->input->keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-		camera.y += cameraSpeed;
+	// Handle negative vertical movement
+	if (App->input->keys[SDL_SCANCODE_DOWN] == KEY_REPEAT) camera.y += cameraSpeed;
 
-	if (App->input->keys[SDL_SCANCODE_LEFT] == KEY_REPEAT)
-		camera.x -= cameraSpeed;
-	if (camera.x < 0) camera.x = 0;
+	//// L4: DONE 1: Handle horizontal movement of the camera
+	//if (App->input->keys[SDL_SCANCODE_LEFT] == KEY_REPEAT) camera.x -= cameraSpeed;
+	//if (camera.x < 0) camera.x = 0;
 
-	if (App->input->keys[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
-		camera.x += cameraSpeed;
+	//if (App->input->keys[SDL_SCANCODE_RIGHT] == KEY_REPEAT) camera.x += cameraSpeed;
 
-
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
-Update_Status ModuleRender::PostUpdate()
+UpdateResult ModuleRender::PostUpdate()
 {
-	//Update the screen
+	// Update the screen
 	SDL_RenderPresent(renderer);
 
-	return Update_Status::UPDATE_CONTINUE;
+	return UpdateResult::UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()
 {
 	LOG("Destroying renderer");
 
-	//Destroy the rendering context
-	if (renderer != nullptr)
-		SDL_DestroyRenderer(renderer);
+	// Destroy the rendering context
+	if (renderer != nullptr) SDL_DestroyRenderer(renderer);
 
 	return true;
 }
 
-// Blit to screen
-bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, bool useCamera)
+// Draw to screen
+bool ModuleRender::DrawTexture(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, bool useCamera)
 {
 	bool ret = true;
 
@@ -112,7 +108,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* sect
 	}
 	else
 	{
-		//Collect the texture size into rect.w and rect.h variables
+		// Collect the texture size into rect.w and rect.h variables
 		SDL_QueryTexture(texture, nullptr, nullptr, &dstRect.w, &dstRect.h);
 	}
 
@@ -128,12 +124,12 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* sect
 	return ret;
 }
 
-bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, float speed, bool useCamera)
+bool ModuleRender::DrawRectangle(const SDL_Rect& rect, SDL_Color color, float speed, bool useCamera)
 {
 	bool ret = true;
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	SDL_Rect dstRect { rect.x * SCREEN_SIZE, rect.y * SCREEN_SIZE, rect.w * SCREEN_SIZE, rect.h * SCREEN_SIZE };
 
