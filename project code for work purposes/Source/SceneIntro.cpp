@@ -10,6 +10,7 @@
 #include "ModuleEnemies.h"
 #include "ModulePlayerAnim.h"
 #include "ModuleCollisions.h"
+#include "ModulePlayerIntro.h"
 
 SceneIntro::SceneIntro(bool startEnabled) : Module(startEnabled)
 {
@@ -54,6 +55,7 @@ bool SceneIntro::Start()
 	healthBar8 = App->textures->Load("Assets/Sprites/life_bar_8.png");
 	healthBar9 = App->textures->Load("Assets/Sprites/life_bar_9.png");
 
+	//Audio
 	App->audio->PlayMusic("Assets/Music/Title.ogg", 1.0f);
 	CoinInserted = App->audio->LoadFx("Assets/Fx/CoinInserted.wav");
 
@@ -61,8 +63,6 @@ bool SceneIntro::Start()
 	App->render->camera.y = 0;
 
 	App->playerAnim->Enable();
-	App->player->Disable();
-	App->enemies->Disable();
 
 	coin = 0;
 
@@ -183,6 +183,7 @@ bool SceneIntro::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
 	App->playerAnim->Disable();
-
+	App->player->Disable();
+	App->enemies->Disable();
 	return true;
 }
