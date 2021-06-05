@@ -16,7 +16,7 @@
 ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 {
 
-	if(life==false)
+	if(life == false)
 	{
 		// idle animation - just one sprite
 		idleAnim.PushBack({ 123, 25, 38, 24 });
@@ -32,7 +32,32 @@ ModulePlayer::ModulePlayer(bool startEnabled) : Module(startEnabled)
 		rightAnim.PushBack({ 215, 26, 30, 25 });
 		rightAnim.loop = false;
 		rightAnim.speed = 0.1f;
+
+
+		// flip Front
+		dodgeForward.PushBack({ 32,  87, 38, 22 });
+		dodgeForward.PushBack({ 75,  87, 43, 21 });
+		dodgeForward.PushBack({ 121,  91, 43, 15 });
+		dodgeForward.PushBack({ 168,  88, 43, 20 });
+		dodgeForward.PushBack({ 212,  85, 43, 25 });
+		dodgeForward.PushBack({ 212, 110, 44, 29 });
+		dodgeForward.PushBack({ 259,  82, 42, 24 });
+		dodgeForward.PushBack({ 304,  87, 42, 20 });
+		dodgeForward.PushBack({ 351,  88, 40, 17 });
+		dodgeForward.PushBack({ 260, 113, 39, 18 });
+		dodgeForward.PushBack({ 169, 112, 37, 20 });
+		dodgeForward.PushBack({ 123, 111, 38, 22 });
+		dodgeForward.PushBack({ 123, 25, 38, 24 });
+		dodgeForward.loop = false;
+		dodgeForward.speed = 0.05f;
+
+		//idle sprite
 	}
+
+	/*if (Rpressed == true)
+	{
+		
+	}*/
 }
 
 ModulePlayer::~ModulePlayer()
@@ -60,6 +85,9 @@ bool ModulePlayer::Start()
 	playerlife = 9;
 	R = 3;
 	destroyed = false;
+	Rpressed = false;
+	timerR = 0;
+	GodMode = false;
 
 	//reset the point when playing again
 	score = 0;
@@ -144,6 +172,18 @@ UpdateResult ModulePlayer::Update()
 		}
 	}
 
+	if (R != 0)
+	{
+		if (Rpressed == false)
+		{
+			if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || pad.y == true)
+			{
+				Rpressed = !Rpressed;
+				R--;
+			}
+		}
+	}
+
 	if (!destroyed)
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == KeyState::KEY_REPEAT || pad.a == true || pad.b == true || pad.r2 == true)
@@ -158,17 +198,6 @@ UpdateResult ModulePlayer::Update()
 			}
 		}
 
-		if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || pad.y == true)
-		{
-			//Rpressed = true;
-
-			//if (Rpressed)
-			//{
-			//	timerR--;
-			//	//GodMode = !GodMode;
-			//}
-			R--;
-		}
 	}
 
 	if (App->input->keys[SDL_SCANCODE_F3] == KeyState::KEY_DOWN)
@@ -190,25 +219,30 @@ UpdateResult ModulePlayer::Update()
 	{
 		position.x += speed;
 	}
-
-	if (R>0)
-	{
-		if (pad.y == true && pad.x == true)
-		{
-			App->input->ShakeController(0, 36, 0.66f);
-			R--;
-		}
-	}
 	
 	// If no left/right movement detected, set the current animation back to idle
-	if (pad.enabled)
+	if (Rpressed == false)
 	{
-		if (pad.left_x == 0.0f && pad.left_y == 0.0f) currentAnimation = &idleAnim;
+		timerR = 0;
+		dodgeForward.Reset();
+		if (pad.enabled)
+		{
+			if (pad.left_x == 0.0f && pad.left_y == 0.0f) currentAnimation = &idleAnim;
+		}
+		else if (App->input->keys[SDL_SCANCODE_A] == KeyState::KEY_IDLE
+			&& App->input->keys[SDL_SCANCODE_D] == KeyState::KEY_IDLE)
+			currentAnimation = &idleAnim;
 	}
-	else if (App->input->keys[SDL_SCANCODE_A] == KeyState::KEY_IDLE
-		&& App->input->keys[SDL_SCANCODE_D] == KeyState::KEY_IDLE)
-		currentAnimation = &idleAnim;
-		
+	if (Rpressed == true)
+	{
+		currentAnimation = &dodgeForward;
+		timerR++;
+		if (timerR / 500)
+		{
+			Rpressed = !Rpressed;
+		}
+	}
+
 
 	// Switch gamepad debug info
 	if (App->input->keys[SDL_SCANCODE_F2] == KEY_DOWN || pad.l3 == true)
@@ -289,16 +323,21 @@ UpdateResult ModulePlayer::PostUpdate()
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	// L6: DONE 5: Detect collision with a wall. If so, destroy the player.
-	if ((c1 == collider) && (c2->type == Collider::Type::ENEMY))
+	if (Rpressed == false)
 	{
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y, Collider::Type::NONE, 0);
-		if (GodMode == false) playerlife--;
-		App->input->ShakeController(0, 60, 0.66f);
-		App->audio->PlayFx(explosionFx);
-		
-		destroyed = false;
+		if (GodMode == false)
+		{
+			if ((c1 == collider) && (c2->type == Collider::Type::ENEMY))
+			{
+				App->particles->AddParticle(App->particles->explosion, position.x, position.y, Collider::Type::NONE, 0);
+				App->input->ShakeController(0, 60, 0.66f);
+				App->audio->PlayFx(explosionFx);
+				playerlife--;
+				destroyed = false;
+			}
+		}
 	}
-
+	
 	if (c1->type == Collider::Type::PLAYER_SHOT && c2->type == Collider::Type::ENEMY)
 	{
 		score += 20;

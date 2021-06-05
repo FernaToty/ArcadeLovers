@@ -52,7 +52,10 @@ private:
 	// Simple debugging flag to draw all colliders
 	bool debug = false;
 
+	uint r = 3;
+	bool rpressed = false;
 	bool godMode = false;
+	bool GodModeF3 = false;
 	int timer;
 };
 

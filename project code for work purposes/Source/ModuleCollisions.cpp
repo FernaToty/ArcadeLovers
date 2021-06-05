@@ -4,6 +4,7 @@
 
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
 
 #include "SDL/include/SDL_Scancode.h"
 
@@ -127,17 +128,51 @@ UpdateResult ModuleCollisions::Update()
 {
 	if (App->input->keys[SDL_SCANCODE_F1] == KEY_DOWN) debug = !debug;
 
-	if (App->input->keys[SDL_SCANCODE_F3] == KEY_DOWN) godMode = !godMode;
+	if (App->input->keys[SDL_SCANCODE_F3] == KEY_DOWN) GodModeF3 = !GodModeF3;
 
-	///////////// THE R IS PRESSED, GODMODE ON FOR A FEW SECONDS ///////////////////
-	//timer++;
-	/*if (App->input->keys[SDL_SCANCODE_r] == KEY_DOWN || App->input->pads->y == true)
+	//R dodge logic
+	if (r != 0)
 	{
-		if (timer <= 5)
+		if (rpressed == false)
 		{
-			godMode = !godMode;
+			if (App->input->keys[SDL_SCANCODE_R] == KeyState::KEY_DOWN || App->input->pads->y == true)
+			{
+				rpressed = !rpressed;
+				r--;
+			}
 		}
-	}*/
+	}
+
+	if (rpressed == false)
+	{
+		timer = 0;
+		if (GodModeF3 == false)
+		{
+			godMode = false;
+		}
+		if (GodModeF3 == true)
+		{
+			godMode = true;
+		}
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = true;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = true;
+		matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
+		matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = true;
+	}
+	if (rpressed == true)
+	{
+		timer++;
+		godMode = true;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = false;
+		matrix[Collider::Type::PLAYER][Collider::Type::ENEMY_SHOT] = false;
+		matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = false;
+		matrix[Collider::Type::ENEMY_SHOT][Collider::Type::PLAYER] = false;
+		if (timer / 450)
+		{
+			rpressed = !rpressed;
+		}
+	}
+	
 
 	return UpdateResult::UPDATE_CONTINUE;
 }
@@ -210,6 +245,33 @@ void ModuleCollisions::DebugDraw()
 				break;
 			}
 		}
+		//else if (GodModeF3 == true)
+		//{
+		//	switch (colliders[i]->type)
+		//	{
+		//	case Collider::Type::NONE: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::WALL: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::PLAYER: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::ENEMY: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::PLAYER_SHOT: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::ENEMY_SHOT: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	case Collider::Type::WIN: // white
+		//		App->render->DrawRectangle(colliders[i]->rect, SDL_Color{ 255, 0, 0, alpha });
+		//		break;
+		//	}
+		//}
 		
 	}
 }

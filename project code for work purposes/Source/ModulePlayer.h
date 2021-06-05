@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
+#include "Path.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -69,6 +70,9 @@ public:
 	// It will be switched depending on the player's movement direction
 	Animation* currentAnimation = nullptr;
 
+	//Path
+	Path path;
+
 	// A set of animations
 	Animation idleAnim;
 	Animation upAnim;
@@ -77,6 +81,7 @@ public:
 	Animation leftAnim;
 	Animation dodgeForward;
 	Animation dodgeBack;
+	Animation flipPlane;
 
 	// The player's collider
 	Collider* collider = nullptr;
