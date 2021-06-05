@@ -60,9 +60,12 @@ public:
 	SDL_Texture* Ship = nullptr;
 	SDL_Texture* ShipDestroyed = nullptr;
 
+	SDL_Texture* BlackScreen = nullptr;
+
 	uint Coin = 0;
 	uint TypeWritter = 0;
 	uint loopAudio = 0;
+	uint lowHp = 0;
 
 	//fonts for the story typing
 	int Font = -1;
@@ -74,8 +77,12 @@ private:
 	int countDown = 0;
 	int counter = 0;
 
+	int counterTransition = 0;
+	bool counterTransHide = true;
+
 	int counterFonts;
 	bool counterFontsHide = true;
+
 	bool ship = true;	
 	bool delayExpl = false;
 	bool textType = false;

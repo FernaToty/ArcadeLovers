@@ -35,7 +35,9 @@ bool SceneLevel1::Start()
 	counter = 0;
 	countDown = 0;
 	counterFonts = 0;
+	counterTransition = 0;
 	counterFontsHide = false;
+	counterTransHide = false;
 	ship = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/water.png");
@@ -73,11 +75,17 @@ bool SceneLevel1::Start()
 	Credit8 = App->textures->Load("Assets/Sprites/Credit8.png");
 	Credit9 = App->textures->Load("Assets/Sprites/Credit9.png");
 
+	//Black Background for transition to lvl2
+	BlackScreen = App->textures->Load("Assets/Sprites/BlackBackground.png");
+
 	//coin audio
 	Coin = App->audio->LoadFx("Assets/Fx/CoinInserted.wav");
 
+	//lifebar low Fx
+	lowHp = App->audio->LoadFx("Assets/Fx/LifeBarLow.wav");
+
 	//TypeWritter audio
-	TypeWritter = App->audio->LoadFx("Assets/Fx/Type.wav");
+	//TypeWritter = App->audio->LoadFx("Assets/Fx/Type.wav");
 
 	//Loop animation Audio 
 	loopAudio = App->audio->LoadFx("Assets/Fx/LoopAnimAudio.wav");
@@ -126,21 +134,45 @@ bool SceneLevel1::Start()
 	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -5600);
 	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -5820);
 
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 280, -5800);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -5350);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -5700);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 220, -5920);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -6150);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -6170);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -6190);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -6210);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 120, -6510);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -6490);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 160, -6470);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 220, -6450);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -6470);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 280, -6490);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -6510);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 220, -6810);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -6790);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -6770);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 320, -6750);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -6770);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 380, -6790);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 400, -6810);
+
+	//POWERUPS
+	App->particles->AddParticle(App->particles->threeWayAnim, 200, -3800, Collider::Type::POWERUP);
+
 	// L10: DONE 2: Enable (and properly disable) the player module
 	//player animation intro
 	App->playerIntro->Enable();
 	App->playerIntro->position.x = 215;
 	App->playerIntro->position.y = 450;
 
-	
-	App->player->Disable();
-	//App->player->position.x = 212;
-	//App->player->position.y = -1613;
-
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 	//Finish state
-	App->collisions->AddCollider({ 0, -12000, 500, 600 }, Collider::Type::WIN);
+	App->collisions->AddCollider({ 0, -15000, 500, 600 }, Collider::Type::WIN);
 	
 	return ret;
 }
@@ -187,6 +219,11 @@ UpdateResult SceneLevel1::Update()
 		App->player->Enable();
 		App->enemies->Enable();
 		App->collisions->Enable();
+		counter = 0;
+	}
+	if (App->player->DescendAnim == true)
+	{
+		counterTransHide = true;
 	}
 
 	return UpdateResult::UPDATE_CONTINUE;
@@ -215,14 +252,14 @@ UpdateResult SceneLevel1::PostUpdate()
 	{
 		App->render->DrawTexture(ShipDestroyed, 0, -60, NULL, 0.3f);
 	}
-	if (introLoop == true)
-	{
-		App->audio->PlayFx(loopAudio);
-	}
-	if (textType == true)
-	{
-		App->audio->PlayFx(TypeWritter);
-	}
+	//if (introLoop == true)
+	//{
+	//	//App->audio->PlayFx(loopAudio);                    //audio of the intro loop too loud
+	//}
+	//if (textType == true)
+	//{
+	//	//App->audio->PlayFx(TypeWritter);                  //audio of the typewritter too loud
+	//}
 	if (counterFontsHide == true)
 	{
 		App->fonts->BlitText(150, 150, Font, "mission");
@@ -503,6 +540,8 @@ UpdateResult SceneLevel1::PostUpdate()
 			if ((countDown / 60) == 20)
 			{
 				App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 90);
+				App->player->destroyed = true;
+				App->player->Disable();
 			}
 			break;
 		default:
@@ -515,6 +554,10 @@ UpdateResult SceneLevel1::PostUpdate()
 		//top UI
 		App->render->DrawTexture(UiTexture, 0, 0, NULL, false);
 		//player lifebar
+		if (App->player->playerlife < 3 && App->player->playerlife != 0)
+		{
+			App->audio->PlayFx(lowHp);
+		}
 		switch (App->player->playerlife)
 		{
 		case 9:
@@ -549,21 +592,292 @@ UpdateResult SceneLevel1::PostUpdate()
 		}
 	}
 	
+	if (counterTransHide == true)
+	{
+		App->render->DrawTexture(BlackScreen, 0, 0, NULL, false);
+		App->render->DrawTexture(UiTexture, 0, 0, NULL, false);
+		//player lifebar
+		if (App->player->playerlife < 3 && App->player->playerlife != 0)
+		{
+			App->audio->PlayFx(lowHp);
+		}
+		switch (App->player->playerlife)
+		{
+		case 9:
+			App->render->DrawTexture(healthBar1, 20, 570, NULL, false);
+			break;
+		case 8:
+			App->render->DrawTexture(healthBar2, 20, 570, NULL, false);
+			break;
+		case 7:
+			App->render->DrawTexture(healthBar3, 20, 570, NULL, false);
+			break;
+		case 6:
+			App->render->DrawTexture(healthBar4, 20, 570, NULL, false);
+			break;
+		case 5:
+			App->render->DrawTexture(healthBar5, 20, 570, NULL, false);
+			break;
+		case 4:
+			App->render->DrawTexture(healthBar6, 20, 570, NULL, false);
+			break;
+		case 3:
+			App->render->DrawTexture(healthBar7, 20, 570, NULL, false);
+			break;
+		case 2:
+			App->render->DrawTexture(healthBar8, 20, 570, NULL, false);
+			break;
+		case 1:
+			App->render->DrawTexture(healthBar9, 20, 570, NULL, false);
+			break;
+		default:
+			break;
+		}
+		counterTransition++;
+		if ((counterTransition / 60))
+		{
+			App->fonts->BlitText(100, 200, Font, "v");
+		}
+		if ((counterTransition / 70))
+		{
+			App->fonts->BlitText(118, 200, Font, "i");
+		}
+		if ((counterTransition / 80))
+		{
+			App->fonts->BlitText(136, 200, Font, "s");
+		}
+		if ((counterTransition / 90))
+		{
+			App->fonts->BlitText(154, 200, Font, "u");
+		}
+		if ((counterTransition / 100))
+		{
+			App->fonts->BlitText(172, 200, Font, "a");
+		}
+		if ((counterTransition / 110))
+		{
+			App->fonts->BlitText(190, 200, Font, "l");
+		}
+		if ((counterTransition / 120))
+		{
+			App->fonts->BlitText(220, 200, Font, "c");
+		}
+		if ((counterTransition / 130))
+		{
+			App->fonts->BlitText(238, 200, Font, "o");
+		}
+		if ((counterTransition / 140))
+		{
+			App->fonts->BlitText(256, 200, Font, "n");
+		}
+		if ((counterTransition / 150))
+		{
+			App->fonts->BlitText(274, 200, Font, "t");
+		}
+		if ((counterTransition / 160))
+		{
+			App->fonts->BlitText(292, 200, Font, "a");
+		}
+		if ((counterTransition / 170))
+		{
+			App->fonts->BlitText(310, 200, Font, "c");
+		}
+		if ((counterTransition / 180))
+		{
+			App->fonts->BlitText(328, 200, Font, "t");
+		}
+		if ((counterTransition / 190))
+		{
+			App->fonts->BlitText(358, 200, Font, "w");
+		}
+		if ((counterTransition / 200))
+		{
+			App->fonts->BlitText(376, 200, Font, "i");
+		}
+		if (counterTransition / 210)
+		{
+			App->fonts->BlitText(394, 200, Font, "t");
+		}
+		if ((counterTransition / 230))
+		{
+			App->fonts->BlitText(412, 200, Font, "h");
+		}
+		if ((counterTransition / 240))
+		{
+			App->fonts->BlitText(40, 300, Font, "s");
+		}
+		if ((counterTransition / 260))
+		{
+			App->fonts->BlitText(58, 300, Font, "u");
+		}
+		if ((counterTransition / 270))
+		{
+			App->fonts->BlitText(76, 300, Font, "r");
+		}
+		if ((counterTransition / 280))
+		{
+			App->fonts->BlitText(94, 300, Font, "f");
+		}
+		if ((counterTransition / 290))
+		{
+			App->fonts->BlitText(112, 300, Font, "a");
+		}
+		if ((counterTransition / 300))
+		{
+			App->fonts->BlitText(130, 300, Font, "c");
+		}
+		if ((counterTransition / 310))
+		{
+			App->fonts->BlitText(148, 300, Font, "e");
+		}
+		if ((counterTransition / 320))
+		{
+			App->fonts->BlitText(178, 300, Font, "f");
+		}
+		if ((counterTransition / 330))
+		{
+			App->fonts->BlitText(196, 300, Font, "o");
+		}
+		if ((counterTransition / 340))
+		{
+			App->fonts->BlitText(214, 300, Font, "r");
+		}
+		if ((counterTransition / 350))
+		{
+			App->fonts->BlitText(232, 300, Font, "c");
+		}
+		if ((counterTransition / 360))
+		{
+			App->fonts->BlitText(250, 300, Font, "e");
+		}
+		if ((counterTransition / 370))
+		{
+			App->fonts->BlitText(268, 300, Font, "s");
+		}
+		if (counterTransition / 380)
+		{
+			App->fonts->BlitText(298, 300, Font, "c");
+		}
+		if ((counterTransition / 390))
+		{
+			App->fonts->BlitText(316, 300, Font, "o");
+		}
+		if (counterTransition / 400)
+		{
+			App->fonts->BlitText(334, 300, Font, "n");
+		}
+		if (counterTransition / 410)
+		{
+			App->fonts->BlitText(352, 300, Font, "f");
+		}
+		if (counterTransition / 420)
+		{
+			App->fonts->BlitText(370, 300, Font, "i");
+		}
+		if (counterTransition / 430)
+		{
+			App->fonts->BlitText(388, 300, Font, "r");
+		}
+		if (counterTransition / 440)
+		{
+			App->fonts->BlitText(406, 300, Font, "m");
+		}
+		if (counterTransition / 450)
+		{
+			App->fonts->BlitText(424, 300, Font, "e");
+		}
+		if (counterTransition / 460)
+		{
+			App->fonts->BlitText(442, 300, Font, "d");
+		}
+		if (counterTransition / 470)
+		{
+			App->fonts->BlitText(100, 400, Font, "c");
+		}
+		if (counterTransition / 480)
+		{
+			App->fonts->BlitText(118, 400, Font, "o");
+		}
+		if (counterTransition / 490)
+		{
+			App->fonts->BlitText(136, 400, Font, "m");
+		}
+		if (counterTransition / 500)
+		{
+			App->fonts->BlitText(154, 400, Font, "m");
+		}
+		if (counterTransition / 510)
+		{
+			App->fonts->BlitText(172, 400, Font, "e");
+		}
+		if (counterTransition / 520)
+		{
+			App->fonts->BlitText(190, 400, Font, "n");
+		}
+		if (counterTransition / 530)
+		{
+			App->fonts->BlitText(208, 400, Font, "c");
+		}
+		if (counterTransition / 540)
+		{
+			App->fonts->BlitText(226, 400, Font, "i");
+		}
+		if (counterTransition / 550)
+		{
+			App->fonts->BlitText(244, 400, Font, "n");
+		}
+		if (counterTransition / 560)
+		{
+			App->fonts->BlitText(262, 400, Font, "g");
+		}
+		if (counterTransition / 570)
+		{
+			App->fonts->BlitText(292, 400, Font, "a");
+		}
+		if (counterTransition / 580)
+		{
+			App->fonts->BlitText(310, 400, Font, "t");
+		}
+		if (counterTransition / 590)
+		{
+			App->fonts->BlitText(328, 400, Font, "t");
+		}
+		if (counterTransition / 600)
+		{
+			App->fonts->BlitText(346, 400, Font, "a");
+		}
+		if (counterTransition / 610)
+		{
+			App->fonts->BlitText(364, 400, Font, "c");
+		}
+		if (counterTransition / 620)
+		{
+			App->fonts->BlitText(382, 400, Font, "k");
+		}
+		if (counterTransition / 700)
+		{
+			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 90);
+		}
+	}
+
 	return UpdateResult::UPDATE_CONTINUE;
 }
 
 bool SceneLevel1::CleanUp()
 {
 	// L10: DONE 2: Enable (and properly disable) the player module
-	if (anim == false)
-	{
-		App->player->Disable();
-		App->enemies->Disable();
-		App->collisions->Disable();
-	}
-
-	//App->UI->Disable();
-	// L10: TODO 5: Remove All Memory Leaks - no solution here... ;)
+	App->player->Disable();
+	App->playerIntro->Disable();
+	App->enemies->Disable();
+	App->collisions->Disable();
+	App->playerIntro->flipBack.Reset();
+	App->playerIntro->flipForward.Reset();
+	App->playerIntro->flipPlane.Reset();
+	App->playerIntro->idleAnim.Reset();
+	App->playerIntro->runWay.Reset();
+	App->playerIntro->smallPlane.Reset();
+	App->textures->Unload(bgTexture);
+	App->textures->Unload(cloudTexture);
 
 	return true;
 }
