@@ -53,8 +53,8 @@ bool ModulePlayer::Start()
 	laserFx = App->audio->LoadFx("Assets/Fx/Shoot.wav");
 	explosionFx = App->audio->LoadFx("Assets/Fx/explosion.wav");
 
-	position.x = 215;
-	position.y = -1350;
+	position.x = 212;
+	position.y = -1613;
 
 	// L10: DONE 4: Retrieve the player when playing a second time
 	playerlife = 9;
