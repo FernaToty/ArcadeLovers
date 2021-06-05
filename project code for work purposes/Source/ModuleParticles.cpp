@@ -35,6 +35,49 @@ bool ModuleParticles::Start()
 	explosion.anim.loop = false;
 	explosion.anim.speed = 0.3f;
 
+	//players death
+	death.anim.PushBack({ 60, 311, 36, 30 });
+	death.anim.PushBack({ 102, 310, 44, 33 });
+	death.anim.PushBack({ 152, 313, 47, 35 });
+	death.anim.PushBack({ 201, 312, 45, 39 });
+	death.anim.PushBack({ 247, 307, 52, 43 });
+	death.anim.PushBack({ 296, 308, 50, 45 });
+	death.anim.PushBack({ 352, 306, 44, 45 });
+	death.anim.PushBack({ 404, 305, 48, 48 });
+	death.anim.PushBack({ 58, 352, 42, 48 });
+	death.anim.PushBack({ 79, 352, 39, 48 });
+	death.anim.PushBack({ 110, 352, 43, 54 });
+	death.anim.PushBack({ 156, 352, 49, 52 });
+	death.anim.PushBack({ 205, 351, 49, 55 });
+	death.anim.PushBack({ 254, 352, 50, 53 });
+	death.anim.PushBack({ 304, 352, 51, 49 });
+	death.anim.PushBack({ 355, 352, 50, 53 });
+	death.anim.PushBack({ 409, 364, 42, 41 });
+	death.anim.loop = false;
+	death.speed.y -= 2;
+	death.anim.speed = 0.1f;
+
+	// 3-Way Power-up animation shoot
+	threeWayL.anim.PushBack({ 283, 421, 19, 23 });
+	threeWayL.speed.y -= 5;
+	threeWayL.speed.x -= 2;
+	threeWayL.lifetime = 180;
+
+	threeWayR.anim.PushBack({ 329, 421, 17, 23 });
+	threeWayR.speed.y -= 5;
+	threeWayR.speed.x += 2;
+	threeWayR.lifetime = 180;
+
+
+	// 3Way Power-up anim
+	threeWayAnim.anim.PushBack({ 155, 482, 31, 29 });
+	threeWayAnim.anim.PushBack({ 185, 482, 29, 28 });
+	threeWayAnim.anim.PushBack({ 213, 484, 29, 28 });
+	threeWayAnim.anim.PushBack({ 241, 484, 29, 28 });
+	threeWayAnim.anim.loop = true;
+	threeWayAnim.anim.speed = 0.1f;
+
+	//shoot anim
 	laser.anim.PushBack({ 304, 420, 23, 25 });
 	laser.speed.y -= 5;
 	laser.lifetime = 180;
