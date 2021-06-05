@@ -96,6 +96,36 @@ bool SceneLevel1::Start()
 	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -3300);
 	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -3400);
 
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -3300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -3450);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -3400);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -3500);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -3800);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -3750);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -3600);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -3900);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -4000);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -4150);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -4300);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -4350);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -4500);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -4550);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -4600);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -4700);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 260, -5000);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 200, -5050);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 140, -5150);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 80, -5300);
+
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 360, -5700);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 300, -5250);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 240, -5600);
+	App->enemies->AddEnemy(Enemy_Type::GREENPLANE, 180, -5820);
+
 	// L10: DONE 2: Enable (and properly disable) the player module
 	//player animation intro
 	App->playerIntro->Enable();
