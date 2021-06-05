@@ -13,6 +13,7 @@
 #include "ModulePlayerAnim.h"
 #include "ModuleFonts.h"
 #include "ModulePlayerIntro.h"
+#include "ModuleParticles.h"
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -75,6 +76,12 @@ bool SceneLevel1::Start()
 	//coin audio
 	Coin = App->audio->LoadFx("Assets/Fx/CoinInserted.wav");
 
+	//TypeWritter audio
+	TypeWritter = App->audio->LoadFx("Assets/Fx/Type.wav");
+
+	//Loop animation Audio 
+	loopAudio = App->audio->LoadFx("Assets/Fx/LoopAnimAudio.wav");
+
 	//Scene Audio
 	App->audio->PlayMusic("Assets/Music/GamePlayAudio.ogg", 1.0f);
 
@@ -95,6 +102,7 @@ bool SceneLevel1::Start()
 	App->playerIntro->position.x = 215;
 	App->playerIntro->position.y = 450;
 
+	
 	App->player->Disable();
 	//App->player->position.x = 212;
 	//App->player->position.y = -1613;
@@ -111,13 +119,29 @@ UpdateResult SceneLevel1::Update()
 {
 	App->render->camera.y -= 1 * SCREEN_SIZE;
 	counter++;
-	if (counter/400)
+	if (counter / 370)
+	{
+		App->particles->Enable();
+		delayExpl = true;
+	}
+	if (counter / 400)
 	{
 		ship = false;
+		delayExpl = false;
+	}
+	if (counter / 600)
+	{
+		//introLoop = true;
 	}
 	if (counter / 900)
 	{
 		counterFontsHide = true;
+		textType = true;
+		introLoop = false;
+	}
+	if (counter / 1300)
+	{
+		textType = false;
 	}
 	if (counter / 1600)
 	{
@@ -145,6 +169,14 @@ UpdateResult SceneLevel1::PostUpdate()
 	App->render->DrawTexture(bgTexture, 0, -25500, NULL);
 	App->render->DrawTexture(cloudTexture, 0, -14350, NULL, 0.8f);
 
+	if (delayExpl == true)
+	{
+		App->particles->AddParticle(App->particles->explosion, 200,   0, Collider::Type::NONE);
+		App->particles->AddParticle(App->particles->explosion, 210,  20, Collider::Type::NONE);
+		App->particles->AddParticle(App->particles->explosion, 220, -15, Collider::Type::NONE);
+		App->particles->AddParticle(App->particles->explosion, 185,  20, Collider::Type::NONE);
+		App->particles->AddParticle(App->particles->explosion, 195, -15, Collider::Type::NONE);
+	}
 	if (ship == true)
 	{
 		App->render->DrawTexture(Ship, 0, 0, NULL, 0.1f);
@@ -153,7 +185,14 @@ UpdateResult SceneLevel1::PostUpdate()
 	{
 		App->render->DrawTexture(ShipDestroyed, 0, -60, NULL, 0.3f);
 	}
-
+	if (introLoop == true)
+	{
+		App->audio->PlayFx(loopAudio);
+	}
+	if (textType == true)
+	{
+		App->audio->PlayFx(TypeWritter);
+	}
 	if (counterFontsHide == true)
 	{
 		App->fonts->BlitText(150, 150, Font, "mission");

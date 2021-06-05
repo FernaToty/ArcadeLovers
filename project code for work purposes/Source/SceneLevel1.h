@@ -61,6 +61,8 @@ public:
 	SDL_Texture* ShipDestroyed = nullptr;
 
 	uint Coin = 0;
+	uint TypeWritter = 0;
+	uint loopAudio = 0;
 
 	//fonts for the story typing
 	int Font = -1;
@@ -71,9 +73,13 @@ private:
 
 	int countDown = 0;
 	int counter = 0;
+
 	int counterFonts;
 	bool counterFontsHide = true;
-	bool ship = true;
+	bool ship = true;	
+	bool delayExpl = false;
+	bool textType = false;
+	bool introLoop = false;
 };
 
 #endif  // __SCENELEVEL1_H__
