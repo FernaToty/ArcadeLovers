@@ -23,49 +23,61 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ## Controls
 ```markdown
+· Gamepaly Controls:
+
 Keyboard Player 1:
 
- - W Key: Move Up
+  - W Key: Move Up
  
- - D Key: Move Right
+  - D Key: Move Right
  
- - A Key: Move Left
+  - A Key: Move Left
  
- - S Key: Move Backwards
+  - S Key: Move Backwards
  
- - SPACE Key: Shot
-  
-  
- Keyboard Player 2:     ?
+  - SPACE Key: Shot
+ 
+  - R Key: Defensive Loop
 
- - UP_ARROW Key: Move Up
  
- - RIGHT_ARROW Key: Move Right
+ Gamepad:
  
- - LEFT_ARROW Key: Move Left
+  - Left Joystick: Player Movement
  
- - DOWN_ARROW Key: Move Backwards
+  - A/B & R2: Shoot
  
- - 1 Key (NUMPAD): Shot
-
- - 2 Key (NUMPAD): Join the Game
+  - Y: Defensive Loop
  
  
-General controls:
+· General controls:
 
- - SPACE Key: Skip Screen
+Keyboard: 
+
+   - C: Insert Coin
  
- - ESC Key: Exit Game
+   - SPACE Key: Start Game (Only functional when Coin is inserted)
+ 
+   - ESC Key: Exit Game
+ 
+ 
+ Gamepad:
+ 
+   - R3: Insert Coin
+ 
+   - Start: Start Game (Only functional when Coin is inserted)
+ 
+ 
+· Developer Mode:
 
+   - F1: Show oliders
 
-Gamepad:
+   - F2: GamePad Debug
 
+   - F3: God Mode
 
+   - F4: Instant Death
 
-Developer Mode:
-
-
-
+   - F5: Next Level (Level 2)
 
 
  ```
