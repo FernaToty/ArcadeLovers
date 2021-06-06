@@ -1,0 +1,85 @@
+#ifndef __APPLICATION_H__
+#define __APPLICATION_H__
+
+#include "Globals.h"
+
+#define NUM_MODULES 20
+
+class Module;
+class ModuleWindow;
+class ModuleInput;
+class ModuleTextures;
+class ModuleAudio;
+class ModulePlayer;
+class ModulePlayerAnim;
+class SceneTutors;
+class SceneMembers;
+class SceneIntro;
+class SceneLevel1;
+class SceneLevel2;
+class EndScreen;
+class EndScreenL;
+class ModuleParticles;
+class ModuleCollisions;
+class ModuleEnemies;
+class ModuleFadeToBlack;
+class ModuleFonts;
+class ModuleRender;
+class ModulePlayerIntro;
+
+class Application
+{
+public:
+
+	// Constructor. Creates all necessary modules for the application
+	Application();
+
+	// Destructor. Removes all module objects
+	~Application();
+
+	// Initializes all modules
+	bool Init();
+
+	// Updates all modules (PreUpdate, Update and PostUpdate)
+	UpdateResult Update();
+
+	// Releases all the application data
+	bool CleanUp();
+
+public:
+
+	// Array to store the pointers for the different modules
+	Module* modules[NUM_MODULES];
+
+	// All the modules stored individually
+	ModuleWindow* window = nullptr;
+	ModuleInput* input = nullptr;
+	ModuleTextures* textures = nullptr;
+	ModuleAudio* audio = nullptr;
+
+	ModulePlayer* player = nullptr;
+	ModulePlayerAnim* playerAnim = nullptr;
+	ModulePlayerIntro* playerIntro = nullptr;
+
+	SceneTutors* sceneTutors = nullptr;
+	SceneMembers* sceneMembers = nullptr;
+	SceneIntro* sceneIntro = nullptr;
+	SceneLevel1* sceneLevel_1 = nullptr;
+	SceneLevel2* sceneLevel_2 = nullptr;
+	EndScreen* endScreen = nullptr;
+	EndScreenL* endScreenL = nullptr;
+	
+	ModuleEnemies* enemies = nullptr;
+	ModuleParticles* particles = nullptr;
+
+	ModuleCollisions* collisions = nullptr;
+	ModuleFadeToBlack* fade = nullptr;
+	ModuleFonts* fonts = nullptr;
+
+	ModuleRender* render = nullptr;
+};
+
+// Global var made extern for Application ---
+extern Application* App;
+
+#endif // __APPLICATION_H__
