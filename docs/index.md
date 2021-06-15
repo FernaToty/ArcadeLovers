@@ -71,7 +71,7 @@ Keyboard:
  
 · Developer Mode:
 
-   - F1: Show oliders
+   - F1: Show colliders
 
    - F2: GamePad Debug
 
@@ -80,6 +80,8 @@ Keyboard:
    - F4: Instant Death
 
    - F5: Next Level (Level 2)
+
+
 
 
  ```
