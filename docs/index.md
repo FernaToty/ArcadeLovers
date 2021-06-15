@@ -21,7 +21,7 @@ The game consists in shooting the most enemy plains and airships possible withou
 
 ## Gameplay
 
-https://youtu.be/dL-oZnhGXGw
+[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/73245381/110165533-5a461780-7df3-11eb-9fde-0209e598614d.gif](https://youtu.be/dL-oZnhGXGw)
 
 ## Controls
 ```markdown
